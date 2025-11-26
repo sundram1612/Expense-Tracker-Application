@@ -1,0 +1,31 @@
+<div class="container py-5">
+
+
+  <div class="text-center mb-5">
+    <h1 class=" mb-3">Your ExpenseTracker</h1>
+  </div>
+
+  
+  <div class="row justify-content-center g-4 mb-5">
+    <div class="col-lg-5 col-md-10">
+      <app-expense-form (expenseAdded)="onExpenseAdded($event)"></app-expense-form>
+    </div>
+    <div class="col-lg-5 col-md-10">
+      <app-expense-summary 
+        [totalExpenses]="totalExpenses"
+        [categoryBreakdown]="categoryBreakdown">
+      </app-expense-summary>
+    </div>
+  </div>
+
+  <div class="row justify-content-center">
+    <div class="col-lg-10 col-12">
+      <app-expense-list 
+        [expenses]="expenses"
+        (expenseDeleted)="onExpenseDeleted($event)">
+      </app-expense-list>
+    </div>
+  </div>
+</div>
+
+

@@ -1,0 +1,50 @@
+<div class="container-fluid d-flex justify-content-center align-items-center" style="min-height: calc(100vh - 72px);">
+    <div class="login-container card shadow-sm" style="width: 420px;">
+        <div class="card-body p-4">
+            <h3 class=" mb-2 fw-bold h-title text-center">Welcome back</h3>
+            <p class="text-muted small mb-4 text-center">Login to access your Expense Tracker Dashboard</p>
+
+            <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+                <div class="mb-3">
+                    <label class="form-label small">Email</label>
+                    <input type="email" formControlName="email" class="form-control" [class.is-invalid]="loginForm.get('email')?.invalid && loginForm.get('email')?.touched" />
+
+                    <div *ngIf="loginForm.get('email')?.errors && loginForm.get('email')?.touched" class="invalid-feedback small">
+                        <div *ngIf="loginForm.get('email')?.hasError('required')">Email is required</div>
+                        <div *ngIf="loginForm.get('email')?.hasError('email')">Enter a valid email</div>
+                    </div>
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label small">Password</label>
+                    <input type="password" formControlName="password" class="form-control" [class.is-invalid]="loginForm.get('password')?.invalid && loginForm.get('password')?.touched" />
+                    <div *ngIf="loginForm.get('password')?.errors && loginForm.get('password')?.touched" class="invalid-feedback small">
+                        <div *ngIf="loginForm.get('password')?.hasError('required')">Password is required</div>
+                        <div *ngIf="loginForm.get('password')?.hasError('minlength')">Password must be at least 6 characters</div>
+                    </div>   
+                </div>
+
+                <div class="d-flex justify-content-between align-items-center mb-3">
+                    <div class="form-check">
+                        <input type="checkbox" id="remember" class="form-check-input" formControlName="remember" />
+                        <label for="remember" class="form-check-label small">Remember Me</label>
+                    </div>
+                    <a routerLink="/forgot-password" class="small">Fortgot Password?</a>
+                </div>
+
+                <div *ngIf="errorMsg" class="alert alert-danger small">{{ errorMsg }}</div>
+
+                <button class="btn btn-primary w-100" type="submit" [disabled]="loading || loginForm.invalid">
+                    <span *ngIf="!loading">Login</span>
+                    <span *ngIf="loading">
+                    <span class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>
+                        Signing In...
+                    </span>
+                </button>
+            </form>
+            <div class="text-center mt-3 small">
+                Don't have an account? <a routerLink="/register" class="text-primary" style="cursor: pointer;">Register</a>
+            </div>
+        </div>
+    </div>
+</div>

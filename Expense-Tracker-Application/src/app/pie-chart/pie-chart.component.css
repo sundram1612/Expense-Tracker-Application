@@ -1,0 +1,23 @@
+.legend-color {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  display: inline-block;
+}
+
+.hover-effect:hover {
+  background-color: #f8f9fa;
+  transition: background-color 0.2s ease;
+}
+
+.chart-container {
+  position: relative;
+  height: 500px;
+}
+.container-fluid.py-4 {
+  max-width: 80%;
+  margin: auto;
+}
+canvas {
+  max-width: 100%;
+}

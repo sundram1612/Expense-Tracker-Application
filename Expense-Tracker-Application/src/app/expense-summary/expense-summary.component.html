@@ -1,0 +1,34 @@
+<div class="card shadow-sm border-0 h-100 rounded-4">
+  <div class="card-header card-header-bg text-white text-center py-3 rounded-top-4">
+    <h5 class="mb-0 fw-semibold">📊 Expense Summary</h5>
+  </div>
+
+  <div class="card-body p-4">
+    <div class="text-center mb-4 p-3 rounded-3" style="background: linear-gradient(135deg, #f093fb, #f5576c);">
+      <h2 class="text-white mb-1">₹{{ totalExpenses | number:'1.2-2' }}</h2>
+      <p class="text-white-50 mb-0">Total Expenses</p>
+    </div>
+
+    <div *ngIf="categoryBreakdown.length > 0">
+      <h6 class="fw-semibold mb-3">📈 Category Breakdown</h6>
+      <div *ngFor="let category of categoryBreakdown" class="d-flex justify-content-between align-items-center border-bottom py-2">
+        <div class="d-flex align-items-center">
+          <span class="rounded-circle me-2" style="width:10px;height:10px;" [style.background]="getCategoryColor(category.name)"></span>
+          <span>{{ category.name }}</span>
+        </div>
+        <span class="fw-bold text-primary">₹{{ category.amount | number:'1.2-2' }}</span>
+      </div>
+    </div>
+
+    <div *ngIf="categoryBreakdown.length === 0" class="text-center text-muted py-5">
+      <i class="fas fa-chart-pie fa-3x mb-3 opacity-50"></i>
+      <p class="mb-0">No expenses to show breakdown</p>
+    </div>
+  </div>
+
+  <div class="card-footer text-end bg-white border-0 rounded-bottom-4 p-3">
+    <a routerLink="/pie-visualization" class="btn text-decoration-none fw-semibold text-primary">
+      View Pie Chart Visualization &rarr;
+    </a>
+  </div>
+</div>

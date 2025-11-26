@@ -1,0 +1,22 @@
+.card{
+    border-radius: 12px;
+}
+
+.invalid-feedback{
+    font-size: 0.9rem;
+    color: #dc3545;
+}
+
+.btn-primary{
+    background-color: #6c5ce7;
+    border-color: #6c5ce7;
+}
+
+.login-container {
+  background: rgba(255, 255, 255, 0.85);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border-radius: 8px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.49);
+}
+

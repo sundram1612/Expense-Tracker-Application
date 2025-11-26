@@ -1,0 +1,19 @@
+.navbar{
+    padding: 0.5rem 1rem;
+    background-color: transparent;
+    box-shadow: 0 4px 12px white; /* bulged shadow */
+    backdrop-filter: blur(10px); /* optional: adds glassy effect */
+    -webkit-backdrop-filter: blur(10px);
+    /* border-bottom: 2px solid rgba(61, 25, 76, 0.717); */
+}
+.navbar-brand img{
+    border-radius: 6px;
+}
+
+.brand-title {
+  font-family: 'Montserrat', sans-serif;
+  color:  #1465e8;
+  font-weight: 700;
+  font-size: 1.5rem;
+  letter-spacing: -0.02em;
+}
