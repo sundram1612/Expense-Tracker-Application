@@ -23,34 +23,6 @@ public class EmailService {
     private JavaMailSender javaMailSender;
 
     public void sendMail(String to, String name, String resetLink){
-//        try{
-//            MimeMessage mimeMessage = javaMailSender.createMimeMessage();
-//            MimeMessageHelper mimeMessageHelper = new MimeMessageHelper(mimeMessage, true);
-//
-//            mimeMessageHelper.setTo(to);
-//            mimeMessageHelper.setSubject("Reset Your Password | Expense Tracker");
-//
-//            String htmlContent = """
-//                    <p>Hi %s,</p>
-//                    <p>You requested to reset your password. Click the button below:</p>
-//                    <p style="text-align: center;">
-//                        <a href="%s" style="background: #0d6efd; color: white; padding: 10px 20px; text-decoration: none; border-radius: 6px; font-weight: bold;">
-//                            Reset Password
-//                        </a>
-//                    </p>
-//                    <p>If the button does not work, open this link: </p>
-//                    <p>%s</p>
-//                    <br/>
-//                    <p>Regards, <br/><b>Expense Tracker Team</b></p>
-//                    <hr>
-//                    <p style="font-size: 12px; color: gray;">
-//                        If you did not request a password reset, ignore this email.
-//                    </p>
-//                    """.formatted(name, resetLink, resetLink);
-//
-//            mimeMessageHelper.setText(htmlContent, true);
-//            javaMailSender.send(mimeMessage);
-//        }
         try{
             // Load HTML template
             String template = Files.readString(
