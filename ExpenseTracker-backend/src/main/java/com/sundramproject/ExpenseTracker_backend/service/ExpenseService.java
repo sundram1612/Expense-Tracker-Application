@@ -1,14 +1,21 @@
 package com.sundramproject.ExpenseTracker_backend.service;
 
+import com.sundramproject.ExpenseTracker_backend.Dto.ExpenseDTO;
 import com.sundramproject.ExpenseTracker_backend.entity.Expense;
 import com.sundramproject.ExpenseTracker_backend.entity.User;
 import com.sundramproject.ExpenseTracker_backend.repository.ExpenseRepository;
 import com.sundramproject.ExpenseTracker_backend.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -17,24 +24,47 @@ public class ExpenseService {
     private final ExpenseRepository expenseRepository;
     private final UserRepository userRepository;
 
-    private User getLoggedInUser(){
-        String email = (String) SecurityContextHolder.getContext()
-                .getAuthentication()
-                .getPrincipal();
 
-        return userRepository.findByEmail(email)
-                .orElseThrow(() -> new RuntimeException("User Not Found"));
+    private User getLoggedInUser() {
+        try {
+            Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+            String email = authentication.getName();
+
+            return userRepository.findByEmail(email)
+                    .orElseThrow(() -> new RuntimeException("User Not Found with email: " + email));
+        } catch (Exception e) {
+            throw new RuntimeException("Authentication error: " + e.getMessage());
+        }
     }
 
-    public List<Expense> getAllExpenses(){
+
+    public List<ExpenseDTO> getAllExpenses(){
         User user = getLoggedInUser();
-        return expenseRepository.findByUserId(user.getId());
+        List<Expense> expenses = expenseRepository.findByUserId(user.getId());
+
+        return expenses.stream()
+                .map(expense -> new ExpenseDTO(
+                        expense.getId(),
+                        expense.getDescription(),
+                        expense.getAmount(),
+                        expense.getCategory(),
+                        expense.getDate()
+                ))
+                .collect(Collectors.toList());
     }
 
-    public Expense addExpense(Expense expense){
+    public ExpenseDTO addExpense(Expense expense) {
         User user = getLoggedInUser();
         expense.setUser(user);
-        return expenseRepository.save(expense);
+        Expense savedExpense = expenseRepository.save(expense);
+
+        return new ExpenseDTO(
+                savedExpense.getId(),
+                savedExpense.getDescription(),
+                savedExpense.getAmount(),
+                savedExpense.getCategory(),
+                savedExpense.getDate()
+        );
     }
 
     public void deleteExpense(Long id){
@@ -46,6 +76,30 @@ public class ExpenseService {
             throw new RuntimeException("Unauthorized delete");
         }
         expenseRepository.delete(expense);
+    }
+
+    public Page<ExpenseDTO> getAllSearchedExpenses(int page, int size, String sortBy, String direction, String search){
+        User user = getLoggedInUser();
+        Sort sort = direction.equalsIgnoreCase("desc") ? Sort.by(sortBy).descending() : Sort.by(sortBy).ascending();
+
+        Pageable pageable = PageRequest.of(page, size, sort);
+
+        Page<Expense> expensePage;
+
+        if(search != null && !search.trim().isEmpty()){
+            expensePage = expenseRepository.searchExpensesByUserId(user.getId(), search, pageable);
+        }
+        else {
+            expensePage = expenseRepository.findByUserId(user.getId(), pageable);
+        }
+
+        return expensePage.map(expense -> new ExpenseDTO(
+                expense.getId(),
+                expense.getDescription(),
+                expense.getAmount(),
+                expense.getCategory(),
+                expense.getDate()
+        ));
     }
 
 

@@ -1,5 +1,6 @@
 package com.sundramproject.ExpenseTracker_backend.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -27,7 +28,8 @@ public class Expense {
     private LocalDate date = LocalDate.now() ;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_id", nullable = true, unique = true)      // temporarily allowing it true
+    @JoinColumn(name = "user_id", nullable = false, unique = true)
+    @JsonIgnore
     private User user;
 
 }

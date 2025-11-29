@@ -43,8 +43,6 @@ public class AuthService {
         userRepository.save(user);
 
         String resetLink = "http://localhost:4200/reset-password/"+token;
-//        String resetLink = "http://localhost:4200/auth/reset-password/token?"+token;
-
         emailService.sendMail(user.getEmail(), user.getName(), resetLink);
         return ResponseEntity.ok("Reset link sent to your email.");
 

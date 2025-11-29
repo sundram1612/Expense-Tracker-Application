@@ -16,32 +16,32 @@ export interface Expense {
 })
 
 export class ExpenseService {
-  private apiUrl = 'http://localhost:8080/api/expenses'; 
+  private apiUrl = 'http://localhost:8080/api/expenses';
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient) { }
 
-private getAuthHeaders(): HttpHeaders {
-  // const token = localStorage.getItem('token');
-  // return new HttpHeaders({
-  //   'Authorization': `Bearer ${token}`
-  // });
+  private getAuthHeaders(): HttpHeaders {
+    // const token = localStorage.getItem('token');
+    // return new HttpHeaders({
+    //   'Authorization': `Bearer ${token}`
+    // });
 
-  // if(typeof window === 'undefined' || typeof localStorage === 'undefined'){
-  //   return new HttpHeaders();
-  // }
+    // if(typeof window === 'undefined' || typeof localStorage === 'undefined'){
+    //   return new HttpHeaders();
+    // }
 
-  const token = localStorage.getItem('token');
+    const token = localStorage.getItem('token');
 
-  return new HttpHeaders({
-    'Authorization': token ? `Bearer ${token}` : ''
-  });
-}
+    return new HttpHeaders({
+      'Authorization': token ? `Bearer ${token}` : ''
+    });
+  }
 
   getExpenses(): Observable<Expense[]> {
     const headers = this.getAuthHeaders();
 
     return this.http.get<Expense[]>(`${this.apiUrl}`, { headers })
-    .pipe(catchError(this.handleError<Expense[]>('getExpenses')));
+      .pipe(catchError(this.handleError<Expense[]>('getExpenses')));
   }
 
   addExpense(expense: Expense): Observable<Expense> {
@@ -49,32 +49,49 @@ private getAuthHeaders(): HttpHeaders {
 
     // return this.http.post<Expense>(this.apiUrl, expense, { headers })
     return this.http.post<Expense>(`${this.apiUrl}`, expense, { headers })
-    .pipe(catchError(this.handleError<Expense>('addExpense')));
+      .pipe(catchError(this.handleError<Expense>('addExpense')));
   }
 
   deleteExpense(id: string): Observable<void> {
     const headers = this.getAuthHeaders();
 
     return this.http.delete<void>(`${this.apiUrl}/${id}`, { headers })
-    .pipe(catchError(this.handleError<void>('deleteExpense')));
+      .pipe(catchError(this.handleError<void>('deleteExpense')));
   }
 
-private handleError<T>(operation = 'operation') {
+  getSearchedExpense(page: number, size: number, sortBy: string, direction: string, search: string='') {
+    const headers = this.getAuthHeaders();
+    const params = {
+      page: page.toString(),
+      size: size.toString(),
+      sortBy,
+      direction,
+      search: search
+    };
+    // return this.http.get<any>(`${this.apiUrl}/search-sort?page=${page}&size=${size}&sortBy=${sortBy}&direction=${direction}`, { headers, params })
+    //   .pipe(catchError(this.handleError<any>('getAllSearchedExpenses')));
+
+    return this.http.get<any>(`${this.apiUrl}/search-sort`, { headers, params })
+      .pipe(catchError(this.handleError<any>('getAllSearchedExpenses')));
+  }
+
+  private handleError<T>(operation = 'operation') {
     return (error: HttpErrorResponse): Observable<T> => {
       console.error(`${operation} failed:`, error);
-      
+
       let errorMessage = 'Something went wrong while contacting the backend server.';
       if (error.error?.message) {
         errorMessage = error.error.message;
       } else if (error.statusText) {
         errorMessage = `${error.status}: ${error.statusText}`;
       }
-      
+
       return throwError(() => new Error(errorMessage));
 
       // const errMsg = error.error?.message || error.statusText || 'Server error';
       // return throwError(() => new Error(errMsg));
     };
-}
+  }
 
 }
+

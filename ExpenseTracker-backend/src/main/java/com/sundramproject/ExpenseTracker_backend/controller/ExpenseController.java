@@ -1,23 +1,20 @@
 package com.sundramproject.ExpenseTracker_backend.controller;
 
+import com.sundramproject.ExpenseTracker_backend.Dto.ExpenseDTO;
 import com.sundramproject.ExpenseTracker_backend.Security.JwtUtil;
 import com.sundramproject.ExpenseTracker_backend.entity.Expense;
 import com.sundramproject.ExpenseTracker_backend.entity.User;
 import com.sundramproject.ExpenseTracker_backend.repository.ExpenseRepository;
 import com.sundramproject.ExpenseTracker_backend.repository.UserRepository;
 import com.sundramproject.ExpenseTracker_backend.service.ExpenseService;
-import lombok.Getter;
-import lombok.RequiredArgsConstructor;
-import lombok.Setter;
-import org.aspectj.weaver.patterns.HasMemberTypePatternForPerThisMatching;
-import org.springframework.http.HttpStatus;
+import lombok.*;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
 import java.util.List;
-import java.util.Map;
-import java.util.Optional;
 
 @RestController
 @RequiredArgsConstructor
@@ -25,11 +22,13 @@ import java.util.Optional;
 @CrossOrigin(origins = "http://localhost:4200")
 public class ExpenseController {
 
-    @Getter
-    @Setter
+
+    @Autowired
     private ExpenseService expenseService;
     private final UserRepository userRepository;
     private final ExpenseRepository expenseRepository;
+
+    @Getter
     private final JwtUtil jwtUtil;
 
     @GetMapping()
@@ -64,10 +63,19 @@ public class ExpenseController {
         }
 
         expenseRepository.deleteById(id);
-//        return ResponseEntity.ok("Expense Deleted.");
         return ResponseEntity.noContent().build();
     }
 
-
+    @GetMapping("/search-sort")
+    public ResponseEntity<Page<ExpenseDTO>> getSearchedExpense(
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int size,
+            @RequestParam(defaultValue = "date") String sortBy,
+            @RequestParam(defaultValue = "desc") String direction,
+            @RequestParam(defaultValue = "") String search
+    ){
+        Page<ExpenseDTO> expensePage = expenseService.getAllSearchedExpenses(page, size, sortBy, direction, search);
+        return ResponseEntity.ok(expensePage);
+    }
 
 }

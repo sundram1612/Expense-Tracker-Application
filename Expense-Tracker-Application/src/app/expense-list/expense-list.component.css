@@ -1,0 +1,35 @@
+.card-header-bg {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+}
+
+.table th {
+  border-top: none;
+  font-weight: 600;
+  color: #495057;
+}
+
+.table th:hover {
+  background-color: #f8f9fa;
+  transition: background-color 0.2s ease;
+}
+
+.page-link {
+  border: none;
+  margin: 0 2px;
+  border-radius: 6px;
+  color: #667eea;
+}
+
+.page-item.active .page-link {
+  background-color: #667eea;
+  border-color: #667eea;
+}
+
+.page-link:hover {
+  background-color: #f8f9fa;
+  color: #764ba2;
+}
+
+.badge {
+  font-size: 0.85em;
+}

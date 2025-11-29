@@ -1,9 +1,14 @@
 
-body {
-  /* background: linear-gradient(135deg, #45275b 50%, #2b0d31 100%); */
+/* body {
+
   min-height: 100vh;
   font-family: 'Segoe UI', sans-serif;
   background: linear-gradient(to right, #1F1C18, #8E0E00, #1F1C18 ); 
+} */
+body {
+  background: linear-gradient(to bottom, #a18cd1 20%, #5e3fa7 70%);
+  min-height: 100vh;
+  font-family: 'Segoe UI', sans-serif;
 }
 
 

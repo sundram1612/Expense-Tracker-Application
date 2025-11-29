@@ -3,8 +3,6 @@ package com.sundramproject.ExpenseTracker_backend.Security;
 import com.sundramproject.ExpenseTracker_backend.entity.User;
 import com.sundramproject.ExpenseTracker_backend.repository.UserRepository;
 import jakarta.transaction.Transactional;
-import lombok.AllArgsConstructor;
-import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;

@@ -7,7 +7,6 @@ import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.sql.Ref;
 import java.time.Instant;
 import java.util.Optional;
 import java.util.UUID;
@@ -20,15 +19,6 @@ public class RefreshTokenService {
 
     @Transactional
     public RefreshToken createRefreshToken(User user){
-//        refreshTokenRepository.deleteByUser(user);
-//
-//        RefreshToken refreshToken = new RefreshToken();
-//        refreshToken.setUser(user);
-//        refreshToken.setToken(UUID.randomUUID().toString());
-//        refreshToken.setExpiryDate(Instant.now().plusSeconds(60 * 60 * 24 * 7));  // 7 days
-//
-//        return refreshTokenRepository.save(refreshToken);
-
         Optional<RefreshToken> existingToken = refreshTokenRepository.findByUser(user);
 
         RefreshToken refreshToken;
