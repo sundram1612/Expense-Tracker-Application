@@ -1,0 +1,23 @@
+<!-- <button 
+      class="btn btn-outline-secondary border-2 btn-sm d-flex align-items-center gap-2"
+      (click)="toggleTheme()"
+      [attr.aria-label]="'Switch to ' + (currentTheme === 'light' ? 'dark' : 'light') + ' mode'"
+      [title]="'Current: ' + currentTheme + ' mode'"
+    >
+      <i class="bi" [class.bi-sun]="currentTheme === 'light'" [class.bi-moon]="currentTheme === 'dark'"></i>
+      <span class="d-none d-md-inline">
+        {{ currentTheme === 'light' ? 'Dark' : 'Light' }}
+      </span>
+</button>
+
+-->
+
+<button 
+  class="btn btn-sm d-flex align-items-center justify-content-center"
+  (click)="toggleTheme()"
+  [attr.aria-label]="'Switch to ' + (currentTheme === 'light' ? 'dark' : 'light') + ' mode'"
+  [title]="'Current: ' + currentTheme + ' mode'"
+  style="width: 40px; height: 40px;"
+>
+  <i class="bi" [class.bi-sun]="currentTheme === 'light'" [class.bi-moon]="currentTheme === 'dark'"></i>
+</button>

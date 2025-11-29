@@ -1,16 +1,11 @@
 
-/* body {
 
-  min-height: 100vh;
-  font-family: 'Segoe UI', sans-serif;
-  background: linear-gradient(to right, #1F1C18, #8E0E00, #1F1C18 ); 
-} */
 body {
-  background: linear-gradient(to bottom, #a18cd1 20%, #5e3fa7 70%);
+  background: linear-gradient(135deg, #a998ea 0%, #9440e8 100%);
   min-height: 100vh;
-  font-family: 'Segoe UI', sans-serif;
+  font-family: 'Montserrat', sans-serif;
+  transition: background 0.3s ease-in-out;
 }
-
 
 .card {
   transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
@@ -21,12 +16,10 @@ body {
   box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
 }
 
-
 .form-control:focus, .form-select:focus {
   border-color: #667eea;
   box-shadow: 0 0 0 0.2rem rgba(102, 126, 234, 0.25);
 }
-
 
 .text-white-50 {
   color: rgba(255, 255, 255, 0.75) !important;
@@ -46,4 +39,24 @@ body {
   font-weight: 700;
   font-size: 1.5rem;
   letter-spacing: -0.02em;
+}
+
+[data-bs-theme="dark"] body {
+  background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+}
+
+[data-bs-theme="dark"] .card {
+  background-color: var(--bs-dark);
+}
+
+.brand-title {
+  font-family: 'Montserrat', sans-serif;
+  color: #1465e8;
+  font-weight: 700;
+  font-size: 1.5rem;
+  letter-spacing: -0.02em;
+}
+
+[data-bs-theme="dark"] .brand-title {
+  color: #60a5fa; /* Lighter blue for dark mode */
 }

@@ -1,4 +1,4 @@
-.legend-color {
+/* .legend-color {
   width: 20px;
   height: 20px;
   border-radius: 50%;
@@ -20,4 +20,70 @@
 }
 canvas {
   max-width: 100%;
+} */
+
+
+
+.legend-color {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  display: inline-block;
+}
+
+/* Base hover effect */
+.hover-effect {
+  transition: all 0.2s ease;
+  cursor: pointer;
+}
+
+
+
+/* Dark mode hover - COMPLETE FIX */
+[data-bs-theme="dark"] .hover-effect:hover {
+  background-color: #374151 !important;
+  color: #ffffff !important;
+}
+
+/* Force all child elements to inherit text color on hover in dark mode */
+[data-bs-theme="dark"] .hover-effect:hover * {
+  color: inherit !important;
+}
+
+.chart-container {
+  position: relative;
+  height: 500px;
+}
+
+.container-fluid.py-4 {
+  max-width: 80%;
+  margin: auto;
+}
+
+canvas {
+  max-width: 100%;
+}
+
+/* Fix card header in dark mode */
+[data-bs-theme="dark"] .card-header.bg-white {
+  background-color: #374151 !important;
+}
+
+[data-bs-theme="dark"] .card-header.bg-white,
+[data-bs-theme="dark"] .card-header.bg-white * {
+  color: #ffffff !important;
+}
+
+/* Fix percentage distribution box */
+[data-bs-theme="dark"] .bg-light {
+  background-color: #374151 !important;
+}
+
+[data-bs-theme="dark"] .bg-light,
+[data-bs-theme="dark"] .bg-light * {
+  color: #ffffff !important;
+}
+
+[data-bs-theme="dark"] .text-muted {
+  color: #9ca3af !important;
 }

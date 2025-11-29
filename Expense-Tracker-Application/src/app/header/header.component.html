@@ -1,40 +1,4 @@
-<!-- <nav class="navbar navbar-expand-lg navbar-light shadow-sm">
-  <div class="container">
-    <a routerLink="/" class="navbar-brand d-flex align-items-center">
-
-      <span class="fw-bold brand-title"> <i class="bi bi-pie-chart-fill me-2"></i>ExpenseTracker</span>
-    </a>
-
-    <div class="d-flex align-items-center ms-auto gap-2">
-
-      <ng-container *ngIf="user$ | async as name; else notLoggedIn">
-
-        <div class="me-2 small brand-title" style="font-size: 1.2rem;">
-          Welcome, <span class="fw-semibold brand-title"
-            style="font-size: 1.2rem; color: rgb(19, 32, 176); letter-spacing: -0.9px;">{{ name }}</span>
-        </div>
-
-        <button class="btn px-lg-3 btn-outline-secondary btn-sm"
-          style="font-family: 'Montserrat', sans-serif; font-weight: 600;" (click)="onLogout()">Logout</button>
-
-      </ng-container>
-
-      <ng-template #notLoggedIn>
-        <button *ngIf="currentRoute === '/login'" class="btn px-lg-3 btn-outline-primary btn-sm"
-          style="font-family: 'Montserrat', sans-serif; font-weight: 600;" (click)="onRegister()">Register</button>
-        <button *ngIf="currentRoute === '/register'" class="btn px-lg-3 btn-outline-primary btn-sm"
-          style="font-family: 'Montserrat', sans-serif; font-weight: 600;" (click)="onLogin()">Login</button>
-        <button *ngIf="currentRoute !== '/login' && currentRoute !== '/register'" class="btn px-lg-3 btn-primary btn-sm"
-          style="font-family: 'Montserrat', sans-serif; font-weight: 600;" (click)="onLogin()">Login</button>
-      </ng-template>
-
-    </div>
-
-
-  </div>
-</nav> -->
-
-<nav class="navbar navbar-expand-lg navbar-light shadow-sm" style="background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(10px); border-bottom: 1px solid rgba(255, 255, 255, 0.2);">
+<nav class="navbar navbar-expand-lg navbar-light shadow-sm">
     <div class="container">
         <!-- Brand Logo -->
         <a routerLink="/" class="navbar-brand d-flex align-items-center">
@@ -45,6 +9,8 @@
 
         <!-- Navigation Items -->
         <div class="d-flex align-items-center ms-auto gap-3">
+
+          <app-theme-toggle style="font-weight: 800; margin-top: 4px;"></app-theme-toggle>
           
             <ng-container *ngIf="user$ | async as name; else notLoggedIn">
                 <!-- User Welcome Message -->

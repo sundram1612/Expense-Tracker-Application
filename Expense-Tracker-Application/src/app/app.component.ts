@@ -7,6 +7,7 @@ import { ExpenseSummaryComponent } from './expense-summary/expense-summary.compo
 import { ExpenseService, Expense } from './expense.service';
 import { HttpClientModule } from '@angular/common/http';
 import { HeaderComponent } from './header/header.component';
+import { ThemeService } from './theme.service';
 
 @Component({
   selector: 'app-root',
@@ -22,5 +23,5 @@ import { HeaderComponent } from './header/header.component';
   styleUrl: './app.component.css'
 })
 export class AppComponent {
- 
+  constructor(private themeService: ThemeService){}
 }

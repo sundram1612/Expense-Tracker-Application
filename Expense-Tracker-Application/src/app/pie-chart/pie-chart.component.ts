@@ -3,10 +3,11 @@ import { AfterViewInit, Component, OnInit } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { Chart, registerables } from 'chart.js';
 import { Expense, ExpenseService } from '../expense.service';
+import { ThemeToggleComponent } from '../shared/theme-toggle/theme-toggle.component';
 @Component({
   selector: 'app-pie-chart',
   standalone: true,
-  imports: [CommonModule, RouterModule, DecimalPipe],
+  imports: [CommonModule, RouterModule, DecimalPipe, ThemeToggleComponent],
   templateUrl: './pie-chart.component.html',
   styleUrl: './pie-chart.component.css'
 })

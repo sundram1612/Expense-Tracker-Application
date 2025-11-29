@@ -3,12 +3,13 @@ import { Component, OnInit } from '@angular/core';
 import { RouterModule, Router, NavigationEnd } from '@angular/router';
 import { AuthService } from '../auth/auth.service';
 import { filter, Observable } from 'rxjs';
+import { ThemeToggleComponent } from '../shared/theme-toggle/theme-toggle.component';
 
 
 @Component({
   selector: 'app-header',
   standalone: true,
-  imports: [CommonModule, RouterModule],
+  imports: [CommonModule, RouterModule, ThemeToggleComponent],
   templateUrl: './header.component.html',
   styleUrl: './header.component.css'
 })
