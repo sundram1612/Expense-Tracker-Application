@@ -19,7 +19,9 @@ export class LoginComponent {
   loginForm!: FormGroup;
   
   constructor(private fb: FormBuilder, private auth: AuthService, private router: Router) {}
-  ngOnInit(): void {this.loginForm = this.fb.group({
+  ngOnInit(): void {
+    this.loginForm = this.fb.group
+    ({
     email: ['', [Validators.required, Validators.email]],
     password: ['', [Validators.required, Validators.minLength(6)]],
     remember: [true]

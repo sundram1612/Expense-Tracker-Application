@@ -1,14 +1,21 @@
 
 
 body {
-  background: linear-gradient(135deg, #a998ea 0%, #9440e8 100%);
+  background: linear-gradient(135deg, #e7e1ff 0%, #d4bfe8 100%);
+
   min-height: 100vh;
   font-family: 'Montserrat', sans-serif;
   transition: background 0.3s ease-in-out;
+  color: #212529;     /* updated  */
+}
+
+[data-bs-theme="dark"] body {
+  background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+  color: #f8f9fa;   /* updated  */
 }
 
 .card {
-  transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+    transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out, background-color 0.3s ease-in-out;
 }
 
 .card:hover {
@@ -16,7 +23,17 @@ body {
   box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
 }
 
+[data-bs-theme="dark" ] .card:hover{
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+}
+
 .form-control:focus, .form-select:focus {
+  border-color: #667eea;
+  box-shadow: 0 0 0 0.2rem rgba(102, 126, 234, 0.25);
+}
+
+[data-bs-theme="dark"] .form-control:focus,
+[data-bs-theme="dark"] .form-select:focus {
   border-color: #667eea;
   box-shadow: 0 0 0 0.2rem rgba(102, 126, 234, 0.25);
 }
@@ -33,7 +50,7 @@ body {
   background-color: #272341 !important;
 } 
 
-.h-title {
+.h-title, .brand-title {
   font-family: 'Montserrat', sans-serif;
   color:  #1465e8;
   font-weight: 700;
@@ -41,22 +58,25 @@ body {
   letter-spacing: -0.02em;
 }
 
-[data-bs-theme="dark"] body {
-  background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
-}
-
-[data-bs-theme="dark"] .card {
-  background-color: var(--bs-dark);
-}
-
-.brand-title {
-  font-family: 'Montserrat', sans-serif;
-  color: #1465e8;
-  font-weight: 700;
-  font-size: 1.5rem;
-  letter-spacing: -0.02em;
-}
-
+[data-bs-theme="dark"] .h-title,
 [data-bs-theme="dark"] .brand-title {
-  color: #60a5fa; /* Lighter blue for dark mode */
+  color: #60a5fa !important; /* Lighter blue for dark mode */
+}
+
+[data-bs-theme="dark"] .text-muted {
+  color: #f8e1e1 !important;
+}
+
+[data-bs-theme="dark"] .text-primary {
+  color: #90caf9 !important;
+}
+
+[data-bs-theme="dark"] .alert {
+  background-color: #2d3748;
+  border-color: #4a5568;
+  color: #e2e8f0;
+}
+
+[data-bs-theme="dark"] a.text-primary {
+  color: #90caf9 !important;
 }

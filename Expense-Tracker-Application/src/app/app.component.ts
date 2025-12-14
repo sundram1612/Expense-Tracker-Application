@@ -8,6 +8,7 @@ import { ExpenseService, Expense } from './expense.service';
 import { HttpClientModule } from '@angular/common/http';
 import { HeaderComponent } from './header/header.component';
 import { ThemeService } from './theme.service';
+import { ExpenseUpdateModalComponent } from "./expense-update-modal/expense-update-modal.component";
 
 @Component({
   selector: 'app-root',
@@ -18,10 +19,12 @@ import { ThemeService } from './theme.service';
     RouterModule,
     HttpClientModule,
     HeaderComponent
-],
+  ],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css'
 })
 export class AppComponent {
+  selectedExpense: any = null;
   constructor(private themeService: ThemeService){}
+
 }

@@ -24,15 +24,12 @@ public class EmailService {
 
     public void sendMail(String to, String name, String resetLink){
         try{
-            // Load HTML template
             String template = Files.readString(
                     new ClassPathResource("templates/reset-password-email.html").getFile().toPath(), StandardCharsets.UTF_8
             );
 
-            // Fill placeholders
             String htmlContent = String.format(template, name, resetLink, resetLink);
 
-            // Send email
             MimeMessage mimeMessage = javaMailSender.createMimeMessage();
             MimeMessageHelper mimeMessageHelper = new MimeMessageHelper(mimeMessage, true, "UTF-8");
 

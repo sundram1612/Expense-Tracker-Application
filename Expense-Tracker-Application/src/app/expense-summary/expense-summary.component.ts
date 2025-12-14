@@ -14,7 +14,7 @@ export class ExpenseSummaryComponent {
   @Input() categoryBreakdown: any[] = [];
 
   getCategoryColor(category: string): string {
-    const colors: {[key: string]: string} = {
+    const colors: { [key: string]: string } = {
       'Food': '#ff6b6b',
       'Travel': '#4ecdc4',
       'Shopping': '#45b7d1',

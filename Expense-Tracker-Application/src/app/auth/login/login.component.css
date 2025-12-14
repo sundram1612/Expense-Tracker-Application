@@ -1,22 +1,76 @@
-.card{
+
+.card {
     border-radius: 12px;
+    transition: background-color 0.3s ease-in-out;
 }
 
-.invalid-feedback{
+.invalid-feedback {
     font-size: 0.9rem;
     color: #dc3545;
 }
 
-.btn-primary{
+.btn-primary {
     background-color: #6c5ce7;
     border-color: #6c5ce7;
 }
 
-.login-container {
-  background: rgba(255, 255, 255, 0.85);
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
-  border-radius: 8px;
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.49);
+[data-bs-theme="dark"] .card {
+    background-color: #212529;
+    border-color: #495057;
 }
 
+[data-bs-theme="dark"] .card-body {
+    background-color: transparent !important; /* Ensure card body doesn't override */
+    color: #f8f9fa;
+}
+
+/* Form controls in dark theme */
+[data-bs-theme="dark"] .form-control {
+    background-color: #2b3035;
+    border-color: #495057;
+    color: #f8f9fa;
+}
+
+[data-bs-theme="dark"] .form-control:focus {
+    background-color: #2b3035;
+    border-color: #667eea;
+    color: #f8f9fa;
+    box-shadow: 0 0 0 0.2rem rgba(102, 126, 234, 0.25);
+}
+
+/* Form labels in dark theme */
+[data-bs-theme="dark"] .form-label,
+[data-bs-theme="dark"] .form-check-label,
+[data-bs-theme="dark"] .small,
+[data-bs-theme="dark"] .text-muted {
+    color: #e9ecef !important;
+}
+
+[data-bs-theme="dark"] .h-title {
+    color: #60a5fa !important;
+}
+
+/* Placeholder styling */
+[data-bs-theme="dark"] .form-control::placeholder {
+    color: #adb5bd;
+    opacity: 1;
+}
+
+.form-control::placeholder {
+    color: #6c757d;
+    opacity: 1;
+}
+
+/* Links in dark theme */
+[data-bs-theme="dark"] a {
+    color: #90caf9;
+}
+
+[data-bs-theme="dark"] a:hover {
+    color: #64b5f6;
+}
+
+/* Container for dark theme */
+[data-bs-theme="dark"] .container-fluid.d-flex {
+    background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+}

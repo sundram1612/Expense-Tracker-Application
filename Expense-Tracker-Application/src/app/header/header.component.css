@@ -1,10 +1,10 @@
 .navbar{
     padding: 0.5rem 1rem;
     background-color: transparent;
-    box-shadow: 0 4px 12px white; /* bulged shadow */
-    backdrop-filter: blur(10px); /* optional: adds glassy effect */
+    box-shadow: 0 4px 12px white; 
+    backdrop-filter: blur(10px); 
     -webkit-backdrop-filter: blur(10px);
-    /* border-bottom: 2px solid rgba(61, 25, 76, 0.717); */
+  
 }
 .navbar-brand img{
     border-radius: 6px;

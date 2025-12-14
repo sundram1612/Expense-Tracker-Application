@@ -13,24 +13,24 @@ import { ThemeToggleComponent } from '../shared/theme-toggle/theme-toggle.compon
   templateUrl: './header.component.html',
   styleUrl: './header.component.css'
 })
-export class HeaderComponent implements OnInit {  
+export class HeaderComponent implements OnInit {
 
-  user$!: Observable<string | null>; 
+  user$!: Observable<string | null>;
   currentRoute = '';
 
   constructor(
     private authService: AuthService,
     private router: Router
-  ) {}
+  ) { }
 
   ngOnInit(): void {
     this.user$ = this.authService.currentUser$;
 
     this.router.events
-    .pipe(filter(event => event instanceof NavigationEnd))
-    .subscribe((event: any) => {
-      this.currentRoute = event.url;
-    });
+      .pipe(filter(event => event instanceof NavigationEnd))
+      .subscribe((event: any) => {
+        this.currentRoute = event.url;
+      });
   }
 
   onLogin() {
@@ -42,7 +42,7 @@ export class HeaderComponent implements OnInit {
     this.router.navigate(['/login']);
   }
   onRegister() {
-  this.router.navigate(['/register']);
+    this.router.navigate(['/register']);
   }
 
 

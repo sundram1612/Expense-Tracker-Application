@@ -1,31 +1,33 @@
-<div class="container py-5">
+<div class="container py-5 mt-5">
 
-
-  <div class="text-center mb-5">
-    <h1 class=" mb-3">Your ExpenseTracker</h1>
-  </div>
-
-  
   <div class="row justify-content-center g-4 mb-5">
     <div class="col-lg-5 col-md-10">
       <app-expense-form (expenseAdded)="onExpenseAdded($event)"></app-expense-form>
     </div>
     <div class="col-lg-5 col-md-10">
-      <app-expense-summary 
-        [totalExpenses]="totalExpenses"
-        [categoryBreakdown]="categoryBreakdown">
+      <app-expense-summary [totalExpenses]="totalExpenses" [categoryBreakdown]="categoryBreakdown">
       </app-expense-summary>
     </div>
   </div>
 
   <div class="row justify-content-center">
     <div class="col-lg-10 col-12">
-      <app-expense-list 
-        [expenses]="expenses"
-        (expenseDeleted)="onExpenseDeleted($event)">
+      <app-expense-list [expenses]="expenses" (expenseDeleted)="onExpenseDeleted($event)"
+        (editExpense)="openEditModal($event)">
       </app-expense-list>
     </div>
   </div>
+
+  <app-expense-update-modal *ngIf="selectedExpense" [expense]="selectedExpense" (closeModal)="closeEditModal()"
+    (expenseUpdated)="onExpenseUpdated()">
+  </app-expense-update-modal>
+
+  <!-- TOAST NOTIFICATION -->
+  <div class="toast-container position-fixed bottom-0 end-0 p-4" style="z-index: 3000;">
+    <div class="toast text-bg-success show" *ngIf="showToast">
+      <div class="toast-body fw-semibold">
+        ✅ Changes Saved
+      </div>
+    </div>
+  </div>
 </div>
-
-

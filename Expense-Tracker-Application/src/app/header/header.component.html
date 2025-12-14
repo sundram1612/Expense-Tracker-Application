@@ -1,19 +1,18 @@
-<nav class="navbar navbar-expand-lg navbar-light shadow-sm">
-    <div class="container">
-        <!-- Brand Logo -->
-        <a routerLink="/" class="navbar-brand d-flex align-items-center">
-            <span class="fw-bold brand-title">
-                <i class="bi bi-pie-chart-fill me-2" style="color: #1465e8;"></i>ExpenseTracker
-            </span>
+<nav class="navbar navbar-expand-lg navbar-light fixed-top"
+    style="border-bottom-left-radius: 4px; border-bottom-right-radius: 4px ;box-shadow: 0 1px 4px #9c27b0;">
+    <div class="container-fluid d-flex align-items-center">
+        <a routerLink="/" class="navbar-brand d-flex align-items-center flex-shrink-0">
+            <i class="bi bi-pie-chart-fill me-2 brand-title"></i>
+            <span class="fw-medium brand-title d-none d-md-inline">ExpenseTracker</span>
+            <span class="d-none d-sm-inline d-md-none brand-title">ETracker</span>
+            <span class="d-inline d-sm-none brand-title">ET</span>
         </a>
 
-        <!-- Navigation Items -->
-        <div class="d-flex align-items-center ms-auto gap-3">
+        <div class="d-flex align-items-center ms-auto gap-2 gap-lg-3 flex-shrink-1">
 
-          <app-theme-toggle style="font-weight: 800; margin-top: 4px;"></app-theme-toggle>
-          
+            <app-theme-toggle style="font-weight: 800; margin-top: 4px;"></app-theme-toggle>
+
             <ng-container *ngIf="user$ | async as name; else notLoggedIn">
-                <!-- User Welcome Message -->
                 <div class="me-3 d-none d-sm-block">
                     <span class="small text-muted">Welcome,</span>
                     <span class="fw-semibold ms-1" style="color: #1e40af; font-size: 1.1rem; letter-spacing: -0.5px;">
@@ -21,46 +20,39 @@
                     </span>
                 </div>
 
-                <!-- Mobile User Welcome (shorter version) -->
                 <div class="me-2 d-block d-sm-none">
                     <span class="fw-semibold" style="color: #1e40af; font-size: 1rem;">
                         Hi, {{ name.split(' ')[0] }}
                     </span>
                 </div>
 
-                <!-- Logout Button -->
-                <button class="btn px-3 px-lg-4 btn-outline-danger btn-sm" 
-                        style="font-family: 'Montserrat', sans-serif; font-weight: 600; border-width: 2px;"
-                        (click)="onLogout()">
+                <button class="btn px-2 px-md-3 px-lg-4 btn-outline-danger btn-sm"
+                    style="font-family: 'Montserrat', sans-serif; font-weight: 600; border-width: 2px;"
+                    (click)="onLogout()">
                     <i class="bi bi-box-arrow-right me-1"></i>
                     <span class="d-none d-md-inline">Logout</span>
                 </button>
             </ng-container>
 
             <ng-template #notLoggedIn>
-                <!-- Register Button -->
-                <button *ngIf="currentRoute === '/login'" 
-                        class="btn px-3 px-lg-4 btn-success btn-sm"
-                        style="font-family: 'Montserrat', sans-serif; font-weight: 600; background: linear-gradient(135deg, #10b981 0%, #059669 100%); border: none;"
-                        (click)="onRegister()">
+                <button *ngIf="currentRoute === '/login'" class="btn px-3 px-lg-4 btn-success btn-sm"
+                    style="font-family: 'Montserrat', sans-serif; font-weight: 600; background: linear-gradient(135deg, #10b981 0%, #059669 100%); border: none;"
+                    (click)="onRegister()">
                     <i class="bi bi-person-plus me-1"></i>
                     <span class="d-none d-md-inline">Register</span>
                 </button>
 
-                <!-- Login Button when on Register page -->
-                <button *ngIf="currentRoute === '/register'" 
-                        class="btn px-3 px-lg-4 btn-primary btn-sm"
-                        style="font-family: 'Montserrat', sans-serif; font-weight: 600; background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%); border: none;"
-                        (click)="onLogin()">
+                <button *ngIf="currentRoute === '/register'" class="btn px-3 px-lg-4 btn-primary btn-sm"
+                    style="font-family: 'Montserrat', sans-serif; font-weight: 600; background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%); border: none;"
+                    (click)="onLogin()">
                     <i class="bi bi-box-arrow-in-right me-1"></i>
                     <span class="d-none d-md-inline">Login</span>
                 </button>
 
-                <!-- Login Button for other pages -->
-                <button *ngIf="currentRoute !== '/login' && currentRoute !== '/register'" 
-                        class="btn px-3 px-lg-4 btn-primary btn-sm"
-                        style="font-family: 'Montserrat', sans-serif; font-weight: 600; background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%); border: none;"
-                        (click)="onLogin()">
+                <button *ngIf="currentRoute !== '/login' && currentRoute !== '/register'"
+                    class="btn px-3 px-lg-4 btn-primary btn-sm"
+                    style="font-family: 'Montserrat', sans-serif; font-weight: 600; background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%); border: none;"
+                    (click)="onLogin()">
                     <i class="bi bi-box-arrow-in-right me-1"></i>
                     <span class="d-none d-md-inline">Login</span>
                 </button>

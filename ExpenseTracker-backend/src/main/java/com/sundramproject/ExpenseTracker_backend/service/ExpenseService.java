@@ -3,9 +3,11 @@ package com.sundramproject.ExpenseTracker_backend.service;
 import com.sundramproject.ExpenseTracker_backend.Dto.ExpenseDTO;
 import com.sundramproject.ExpenseTracker_backend.entity.Expense;
 import com.sundramproject.ExpenseTracker_backend.entity.User;
+import com.sundramproject.ExpenseTracker_backend.exception.ResourceNotFoundException;
 import com.sundramproject.ExpenseTracker_backend.repository.ExpenseRepository;
 import com.sundramproject.ExpenseTracker_backend.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.boot.context.config.ConfigDataResourceNotFoundException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -102,6 +104,23 @@ public class ExpenseService {
         ));
     }
 
+    public ExpenseDTO updateExpense(Long id, ExpenseDTO expenseDTO) {
+        Expense expense = expenseRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Expense Not found with id: "+id));
 
+        expense.setDescription(expenseDTO.getDescription());
+        expense.setAmount(expenseDTO.getAmount());
+        expense.setCategory(expenseDTO.getCategory());
+        expense.setDate(expenseDTO.getDate());
 
+        Expense updated = expenseRepository.save(expense);
+
+        return new ExpenseDTO(
+                expense.getId(),
+                expense.getDescription(),
+                expense.getAmount(),
+                expense.getCategory(),
+                expense.getDate()
+        );
+    }
 }

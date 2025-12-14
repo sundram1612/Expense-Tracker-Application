@@ -27,7 +27,7 @@ export class PieChartComponent implements OnInit, AfterViewInit {
     this.loadExpenses();
   }
 
-  ngAfterViewInit() {}
+  ngAfterViewInit() { }
 
   private loadExpenses() {
     this.expenseService.getExpenses().subscribe({
@@ -53,8 +53,8 @@ export class PieChartComponent implements OnInit, AfterViewInit {
       return { name: category, amount: total };
     }).filter(cat => cat.amount > 0);
 
-     console.log("Expenses:", this.expenses);
-  console.log("Category breakdown:", this.categoryBreakdown);
+    console.log("Expenses:", this.expenses);
+    console.log("Category breakdown:", this.categoryBreakdown);
   }
 
 
@@ -68,94 +68,51 @@ export class PieChartComponent implements OnInit, AfterViewInit {
     };
     return colorMap[category] || '#6c757d';
   }
-
-  // private initializeChart() {
-  //   if (this.pieChart) {
-  //     this.pieChart.destroy();
-  //   }
-
-  //   const ctx = document.getElementById('pieChart') as HTMLCanvasElement;
-    
-  //   this.pieChart = new Chart(ctx, {
-  //     type: 'pie',
-  //     data: {
-  //       labels: this.categoryBreakdown.map(cat => cat.name),
-  //       datasets: [{
-  //         data: this.categoryBreakdown.map(cat => cat.amount),
-  //         backgroundColor: this.categoryBreakdown.map(cat => this.getCategoryColor(cat.name)),
-  //         borderColor: '#ffffff',
-  //         borderWidth: 2,
-  //         hoverOffset: 15
-  //       }]
-  //     },
-  //     options: {
-  //       responsive: true,
-  //       maintainAspectRatio: false,
-  //       plugins: {
-  //         legend: {
-  //           display: false
-  //         },
-  //         tooltip: {
-  //           callbacks: {
-  //             label: (context) => {
-  //               const label = context.label || '';
-  //               const value = context.raw as number;
-  //               const total = context.dataset.data.reduce((a: number, b: number) => a + b, 0);
-  //               const percentage = ((value / total) * 100).toFixed(1);
-  //               return `${label}: ₹${value.toFixed(2)} (${percentage}%)`;
-  //             }
-  //           }
-  //         }
-  //       }
-  //     }
-  //   });
-  // }
-
   private initializeChart() {
-  if (this.pieChart) {
-    this.pieChart.destroy();
-  }
+    if (this.pieChart) {
+      this.pieChart.destroy();
+    }
 
-  const ctx = document.getElementById('pieChart') as HTMLCanvasElement;
+    const ctx = document.getElementById('pieChart') as HTMLCanvasElement;
 
-  const total = this.categoryBreakdown.reduce((a, b) => a + b.amount, 0);
-  const minPercent = 0.02;
-  const adjustedData = this.categoryBreakdown.map(cat => {
-    const percent = cat.amount / total;
-    return percent < minPercent ? total * minPercent : cat.amount;
-  });
+    const total = this.categoryBreakdown.reduce((a, b) => a + b.amount, 0);
+    const minPercent = 0.02;
+    const adjustedData = this.categoryBreakdown.map(cat => {
+      const percent = cat.amount / total;
+      return percent < minPercent ? total * minPercent : cat.amount;
+    });
 
-  this.pieChart = new Chart(ctx, {
-    type: 'doughnut',
-    data: {
-      labels: this.categoryBreakdown.map(cat => cat.name),
-      datasets: [{
-        data: adjustedData,
-        backgroundColor: this.categoryBreakdown.map(cat => this.getCategoryColor(cat.name)),
-        borderColor: '#ffffff',
-        borderWidth: 2,
-        hoverOffset: 12,
-      }]
-    },
-    options: {
-      responsive: true,
-      maintainAspectRatio: false,
-      cutout: '55%',
-      plugins: {
-        legend: { display: false },
-        tooltip: {
-          callbacks: {
-            label: (context) => {
-              const label = context.label || '';
-              const value = this.categoryBreakdown[context.dataIndex].amount; 
-              const percent = ((value / total) * 100).toFixed(1);
-              return `${label}: ₹${value.toFixed(2)} (${percent}%)`;
+    this.pieChart = new Chart(ctx, {
+      type: 'doughnut',
+      data: {
+        labels: this.categoryBreakdown.map(cat => cat.name),
+        datasets: [{
+          data: adjustedData,
+          backgroundColor: this.categoryBreakdown.map(cat => this.getCategoryColor(cat.name)),
+          borderColor: '#ffffff',
+          borderWidth: 2,
+          hoverOffset: 12,
+        }]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        cutout: '55%',
+        plugins: {
+          legend: { display: false },
+          tooltip: {
+            callbacks: {
+              label: (context) => {
+                const label = context.label || '';
+                const value = this.categoryBreakdown[context.dataIndex].amount;
+                const percent = ((value / total) * 100).toFixed(1);
+                return `${label}: ₹${value.toFixed(2)} (${percent}%)`;
+              }
             }
           }
         }
       }
-    }
-  });
-}
+    });
+  }
 
 }

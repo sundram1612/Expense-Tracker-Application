@@ -1,16 +1,3 @@
-// import { Routes } from '@angular/router';
-// import { PieChartComponent } from './pie-chart/pie-chart.component';
-// import { AppComponent } from './app.component';
-
-// export const routes: Routes = [
-
-//   { path: '', component: AppComponent },
-//   { path: 'pie-visualization', component: PieChartComponent },
-//   { path: '**', redirectTo: '' } 
-
-
-//  ];
-
 import { Routes } from '@angular/router';
 import { authGuard } from './auth/auth.guard';
 

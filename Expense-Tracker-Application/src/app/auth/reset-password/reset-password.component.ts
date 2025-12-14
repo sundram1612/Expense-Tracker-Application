@@ -33,6 +33,11 @@ export class ResetPasswordComponent {
     }  
 
     submit(){
+      if(this.form.invalid){
+        this.form.markAllAsTouched();
+        return;
+      }
+
       if(!this.token){
         this.message = "Invalid or expired link";
         return;

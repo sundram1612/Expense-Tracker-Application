@@ -21,15 +21,6 @@ export class ExpenseService {
   constructor(private http: HttpClient) { }
 
   private getAuthHeaders(): HttpHeaders {
-    // const token = localStorage.getItem('token');
-    // return new HttpHeaders({
-    //   'Authorization': `Bearer ${token}`
-    // });
-
-    // if(typeof window === 'undefined' || typeof localStorage === 'undefined'){
-    //   return new HttpHeaders();
-    // }
-
     const token = localStorage.getItem('token');
 
     return new HttpHeaders({
@@ -47,9 +38,15 @@ export class ExpenseService {
   addExpense(expense: Expense): Observable<Expense> {
     const headers = this.getAuthHeaders();
 
-    // return this.http.post<Expense>(this.apiUrl, expense, { headers })
     return this.http.post<Expense>(`${this.apiUrl}`, expense, { headers })
       .pipe(catchError(this.handleError<Expense>('addExpense')));
+  }
+
+  updateExpense(id: string, expenseData: any){
+    const headers = this.getAuthHeaders();
+
+    return this.http.put<Expense>(`${this.apiUrl}/update-expense/${id}`, expenseData, { headers })
+      .pipe(catchError(this.handleError<Expense>('updateExpense')));
   }
 
   deleteExpense(id: string): Observable<void> {
@@ -68,9 +65,7 @@ export class ExpenseService {
       direction,
       search: search
     };
-    // return this.http.get<any>(`${this.apiUrl}/search-sort?page=${page}&size=${size}&sortBy=${sortBy}&direction=${direction}`, { headers, params })
-    //   .pipe(catchError(this.handleError<any>('getAllSearchedExpenses')));
-
+  
     return this.http.get<any>(`${this.apiUrl}/search-sort`, { headers, params })
       .pipe(catchError(this.handleError<any>('getAllSearchedExpenses')));
   }
@@ -87,9 +82,6 @@ export class ExpenseService {
       }
 
       return throwError(() => new Error(errorMessage));
-
-      // const errMsg = error.error?.message || error.statusText || 'Server error';
-      // return throwError(() => new Error(errMsg));
     };
   }
 

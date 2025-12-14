@@ -3,6 +3,7 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { Expense, ExpenseService } from '../expense.service';
 import { FormsModule } from '@angular/forms';
 import { debounceTime, distinctUntilChanged, Subject } from 'rxjs';
+import { HomeComponent } from '../home/home.component';
 
 @Component({
   selector: 'app-expense-list',
@@ -19,9 +20,10 @@ export class ExpenseListComponent implements OnInit {
   direction: string = 'desc';
   search: string = '';
 
+
   private searchSubject = new Subject<string>();
 
-  sortOptions =[
+  sortOptions = [
     { value: 'description', label: 'Description' },
     { value: 'amount', label: 'Amount' },
     { value: 'category', label: 'Category' },
@@ -30,20 +32,24 @@ export class ExpenseListComponent implements OnInit {
 
   @Input() expenses: Expense[] = [];
   @Output() expenseDeleted = new EventEmitter<string>();
+  @Output() editExpense = new EventEmitter<any>();
 
-  constructor(private expenseService: ExpenseService){}
+  constructor(
+    private expenseService: ExpenseService,
+    private homeComponent: HomeComponent
+  ) { }
 
-  ngOnInit(): void{
+  ngOnInit(): void {
     this.getAllSearchedExpenses();
 
     // Debounce search input
     this.searchSubject.pipe(
       debounceTime(500),          // wait 500ms after user stops typing
       distinctUntilChanged(),    // only search if value changed
-   ).subscribe(searchTerm => {
-    this.page = 0;
-    this.getAllSearchedExpenses();
-   });
+    ).subscribe(searchTerm => {
+      this.page = 0;
+      this.getAllSearchedExpenses();
+    });
   }
 
   getCategoryColor(category: string): string {
@@ -63,47 +69,51 @@ export class ExpenseListComponent implements OnInit {
     }
   }
 
-  getAllSearchedExpenses() {
-    this.expenseService.getSearchedExpense(this.page, this.size, this.sortBy, this.direction, this.search)
-    .subscribe({
-      next: (response) => {
-        this.expenses = response.content;
-        this.totalPages = response.totalPages;
-      },
-      error: (error) => {
-        console.error('Error fetching expenses:', error);
-        this.expenses = [];
-        this.totalPages = 0;
-
-        // show user-friendly message or handle error appropriately
-        if(error.status === 403){
-          console.error('Access forbidden: Please log in again.');
-        }
-      }
-    })
+  openEditModal(expense: any) {
+    // deep copy to avoid instant UI update
+    this.editExpense.emit(expense);
   }
 
-  onSortChange(){
-    this.page = 0; // Reset to first page on sort change
+  getAllSearchedExpenses() {
+    this.expenseService.getSearchedExpense(this.page, this.size, this.sortBy, this.direction, this.search)
+      .subscribe({
+        next: (response) => {
+          this.expenses = response.content;
+          this.totalPages = response.totalPages;
+        },
+        error: (error) => {
+          console.error('Error fetching expenses:', error);
+          this.expenses = [];
+          this.totalPages = 0;
+
+          if (error.status === 403) {
+            console.error('Access forbidden: Please log in again.');
+          }
+        }
+      })
+  }
+
+  onSortChange() {
+    this.page = 0;
     this.getAllSearchedExpenses();
   }
 
-  // Updated method name of search 
-  onSearchInput(){
+
+  onSearchInput() {
     this.searchSubject.next(this.search);
   }
 
-  clearSearch(){
+  clearSearch() {
     this.search = '';
     this.page = 0;
     this.getAllSearchedExpenses();
   }
 
-  toggleSortDirection(column: string){
-    if(this.sortBy === column) {
+  toggleSortDirection(column: string) {
+    if (this.sortBy === column) {
       this.direction = this.direction === 'asc' ? 'desc' : 'asc';
     }
-    else{
+    else {
       this.sortBy = column;
       this.direction = 'asc';
     }
@@ -111,15 +121,15 @@ export class ExpenseListComponent implements OnInit {
     this.getAllSearchedExpenses();
   }
 
-  goToPage(pageNumber: number){
-    if(pageNumber >=0 && pageNumber < this.totalPages){
+  goToPage(pageNumber: number) {
+    if (pageNumber >= 0 && pageNumber < this.totalPages) {
       this.page = pageNumber;
       this.getAllSearchedExpenses();
     }
   }
 
   getSortIcon(column: string): string {
-    if(this.sortBy === column){
+    if (this.sortBy === column) {
       return 'bi-arrow-down-up';
     }
     return this.direction === 'asc' ? 'bi-caret-up-full' : 'bi-caret-down-fill';

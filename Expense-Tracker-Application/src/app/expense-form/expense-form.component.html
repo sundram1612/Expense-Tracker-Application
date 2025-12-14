@@ -2,55 +2,37 @@
   <div class="card-header card-header-bg text-white text-center py-3 rounded-top-4">
     <h5 class="mb-0 fw-semibold">Add New Expense</h5>
   </div>
-  
+
   <div class="card-body p-4">
     <form #expenseForm="ngForm" (ngSubmit)="onSubmit()">
 
-     
+
       <div class="mb-4">
         <label for="description" class="form-label fw-semibold">Description</label>
-        <input
-          type="text"
-          class="form-control"
-          id="description"
-          name="description"
-          [(ngModel)]="newExpense.description"
-          required minlength="3"
-          #desc="ngModel"
-          placeholder="Enter expense description">
+        <input type="text" class="form-control" id="description" name="description" [(ngModel)]="newExpense.description"
+          required minlength="3" #desc="ngModel" placeholder="Enter expense description">
         <div *ngIf="desc.invalid && (desc.dirty || desc.touched)" class="text-danger mt-2 small">
           <small *ngIf="desc.errors?.['required']">Description is required</small>
           <small *ngIf="desc.errors?.['minlength']">At least 3 characters required</small>
         </div>
       </div>
 
-      
+
       <div class="mb-4">
         <label for="amount" class="form-label fw-semibold">Amount (₹)</label>
-        <input
-          type="number"
-          class="form-control"
-          id="amount"
-          name="amount"
-          [(ngModel)]="newExpense.amount"
-          required min="0.01" step="0.01"
-          #amt="ngModel"
-          placeholder="0.00">
+        <input type="number" class="form-control" id="amount" name="amount" [(ngModel)]="newExpense.amount" required
+          min="0.01" step="0.01" #amt="ngModel" placeholder="0.00">
         <div *ngIf="amt.invalid && (amt.dirty || amt.touched)" class="text-danger mt-2 small">
           <small *ngIf="amt.errors?.['required']">Amount is required</small>
           <small *ngIf="amt.errors?.['min']">Amount must be positive</small>
         </div>
       </div>
 
-     
+
       <div class="mb-4">
         <label for="category" class="form-label fw-semibold">Category</label>
-        <select
-          class="form-select"
-          id="category"
-          name="category"
-          [(ngModel)]="newExpense.category"
-          required #cat="ngModel">
+        <select class="form-select" id="category" name="category" [(ngModel)]="newExpense.category" required
+          #cat="ngModel">
           <option value="">Select Category</option>
           <option value="Food">Food</option>
           <option value="Travel">Travel</option>
@@ -63,24 +45,15 @@
         </div>
       </div>
 
-      
+
       <div class="mb-4">
         <label for="date" class="form-label fw-semibold">Date</label>
-        <input
-          type="date"
-          class="form-control"
-          id="date"
-          name="date"
-          [(ngModel)]="newExpense.date"
-          required>
+        <input type="date" class="form-control" id="date" name="date" [(ngModel)]="newExpense.date" required>
       </div>
 
-      
+
       <div class="text-center">
-        <button 
-          type="submit" 
-          class="btn btn-primary w-100 py-2 fw-semibold"
-          [disabled]="expenseForm.invalid">
+        <button type="submit" class="btn btn-primary w-100 py-2 fw-semibold" [disabled]="expenseForm.invalid">
           💰 Add Expense
         </button>
       </div>
