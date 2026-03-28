@@ -1,0 +1,13 @@
+.card {
+    background-color: var(--bs-body-bg);
+}
+.text-danger-emphasis {
+    color: #435165 !important;
+}
+[data-bs-theme="dark"] .text-danger-emphasis {
+    color: #f1f5f9 !important;
+}
+
+[data-bs-theme="dark"] .bg-body-tertiary {
+   background-color: #2b3035 !important;
+}

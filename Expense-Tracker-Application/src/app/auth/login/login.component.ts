@@ -51,7 +51,7 @@ export class LoginComponent {
         console.error('Login error', err);
         
         if(err?.status === 401){
-          this.errorMsg = 'Invalid Email or Password. Please try again.';
+          this.errorMsg = err?.error?.message || 'Invalid Email or Password. Please try again.';
         }
         else if(err?.status === 0){
           this.errorMsg = 'Server is not reachable. Try agian later.';

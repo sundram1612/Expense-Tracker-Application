@@ -1,0 +1,38 @@
+<div class="sidebar d-flex flex-column p-3 text-white">
+      <img src="logo.png" alt="Logo" class="me-2 rounded p-1 mb-1" style="width: 150x; height: 100px; object-fit: contain;">
+      
+      
+      <ul class="nav nav-pills flex-column mb-auto mt-2">
+        <li class="nav-item mb-2">
+          <a routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}" class="nav-link text-white d-flex align-items-center gap-3 py-2 px-3 fw-medium">
+            <i class="bi bi-house-door-fill fs-5"></i>
+            Dashboard
+          </a>
+        </li>
+        <li class="nav-item mb-2">
+          <a routerLink="/transactions" routerLinkActive="active" class="nav-link text-white d-flex align-items-center gap-3 py-2 px-3 fw-medium">
+            <i class="bi bi-card-text fs-5"></i>
+            Transactions
+          </a>
+        </li>
+        <li class="nav-item mb-2">
+          <a routerLink="/budgets" routerLinkActive="active" class="nav-link text-white d-flex align-items-center gap-3 py-2 px-3 fw-medium">
+            <i class="bi bi-wallet2 fs-5"></i>
+            Budgets
+          </a>
+        </li>
+        <li class="nav-item mb-2">
+          <a routerLink="/reports" routerLinkActive="active" class="nav-link text-white d-flex align-items-center gap-3 py-2 px-3 fw-medium">
+            <i class="bi bi-bar-chart-fill fs-5"></i>
+            Reports
+          </a>
+        </li>       
+      </ul>
+      <hr class="border-secondary opacity-25">
+      <div class="nav-item">
+        <a href="#" (click)="logout($event)" class="nav-link text-white d-flex align-items-center gap-3 py-2 px-3 fw-medium">
+          <i class="bi bi-box-arrow-left fs-5"></i>
+          Logout
+        </a>
+      </div>
+    </div>

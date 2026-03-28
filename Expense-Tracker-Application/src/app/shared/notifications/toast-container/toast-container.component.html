@@ -1,0 +1,24 @@
+<div class="toast-container position-fixed top-0 end-0 p-3" style="z-index: 9999;">
+      <div *ngFor="let toast of toasts$ | async" 
+           [@toastAnimation]
+           class="toast-item shadow-lg mb-3 rounded-4 overflow-hidden border border-white border-opacity-10 d-flex"
+           [ngClass]="toast.type">
+        
+        <div class="toast-accent" [ngClass]="'bg-' + toast.type"></div>
+        
+        <div class="toast-content p-3 flex-grow-1">
+          <div class="d-flex justify-content-between align-items-center mb-1">
+            <span class="fw-bold small text-uppercase tracking-wider opacity-75 d-flex align-items-center gap-2">
+              <i class="bi" [ngClass]="getIcon(toast.type)"></i>
+              {{ toast.title || toast.type }}
+            </span>
+            <button (click)="remove(toast.id)" class="btn-close btn-close-white small opacity-50 shadow-none" style="scale: 0.7;"></button>
+          </div>
+          <p class="mb-0 fw-medium" style="font-size: 0.95rem;">{{ toast.message }}</p>
+          
+          <div *ngIf="toast.duration" class="toast-timer">
+            <div class="progress-bar-inner" [style.animation-duration.ms]="toast.duration"></div>
+          </div>
+        </div>
+      </div>
+    </div>

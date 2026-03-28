@@ -1,0 +1,80 @@
+<div class="container-fluid py-2">
+  
+  <div *ngIf="loading" class="text-center py-5">
+     <div class="spinner-border text-primary"></div>
+  </div>
+
+  <div *ngIf="!loading && dashboardData">
+    <div class="d-flex justify-content-between align-items-center mb-4 px-2">
+       <h3 class="fw-bold mb-0 text-body">Budgets</h3>
+       <button class="btn btn-primary fw-medium rounded text-white shadow-sm px-3" (click)="showAddBudget = true">
+         Add Budget <i class="bi bi-chevron-right small ms-1"></i>
+       </button>
+    </div>
+
+    <app-add-budget-modal *ngIf="showAddBudget" (closeModal)="showAddBudget = false" (budgetUpdated)="fetchData()"></app-add-budget-modal>
+
+    <div class="card shadow-sm border-0 rounded-4 p-4 mb-4">
+       <div class="row g-3 mb-3 text-center text-md-start">
+          <div class="col-md-4">
+            <span class="text-body-secondary fw-semibold mb-1 d-block" style="font-size: 0.95rem;">Total Budget</span>
+            <span class="fw-bold text-body" style="font-size: 1.4rem;">&#8377;{{ totalBudget | number:'1.0-0' }}</span>
+          </div>
+          <div class="col-md-4">
+            <span class="text-body-secondary fw-semibold mb-1 d-block" style="font-size: 0.95rem;">Spent</span>
+            <span class="fw-bold" style="font-size: 1.4rem; color: #f47b42;">&#8377;{{ dashboardData.thisMonthExpense | number:'1.0-0' }}</span>
+          </div>
+          <div class="col-md-4">
+            <span class="text-body-secondary fw-semibold mb-1 d-block" style="font-size: 0.95rem;">Remaining</span>
+            <span class="fw-bold text-success" style="font-size: 1.4rem;">&#8377;{{ dashboardData.budgetRemaining | number:'1.0-0' }}</span>
+          </div>
+       </div>
+       
+       <div class="progress rounded-pill bg-body-secondary mt-2" style="height: 14px;">
+          <div class="progress-bar custom-bg-success" role="progressbar" [style.width]="dashboardData.budgetUsedPercentage + '%'"></div>
+          <div class="progress-bar custom-bg-warning" role="progressbar" style="width: 5%"></div>
+       </div>
+    </div>
+
+    <div class="card shadow-sm border-0 rounded-4 p-4">
+       <h5 class="fw-bold mb-4 text-body" style="color: #2b3954;">Category</h5>
+       
+       <div class="d-flex flex-column gap-4">
+          <div *ngFor="let cat of dashboardData.expenseBreakdown" class="d-flex flex-column flex-md-row align-items-md-center mb-4 mb-md-2 gap-2 gap-md-0">
+             
+             <div class="d-flex align-items-center gap-3" style="min-width: 180px;">
+                 <i class="bi fs-5 rounded p-2" 
+                    [ngClass]="{
+                      'bi-basket text-success bg-success-subtle': cat.category === 'Grocery' || cat.category === 'Food & Dining',
+                      'bi-credit-card text-info bg-info-subtle': cat.category === 'Salary',
+                      'bi-cup-hot text-danger bg-danger-subtle': cat.category === 'Dining' || cat.category === 'Travel',
+                      'bi-briefcase text-warning bg-warning-subtle': cat.category === 'Shopping',
+                      'bi-lightning-charge text-primary bg-primary-subtle': cat.category === 'Utilities'
+                    }"></i>
+                 <span class="fw-bold text-body">{{ cat.category }}</span>
+             </div>
+             
+             <div class="flex-grow-1 px-md-4 w-100">
+                 <div class="progress rounded-pill bg-body-secondary" style="height: 10px;">
+                    <div class="progress-bar custom-bg-success" role="progressbar" [style.width]="(getCategoryPercentage(cat.amount) * 0.8) + '%'"></div>
+                    <div class="progress-bar custom-bg-warning" role="progressbar" [style.width]="(getCategoryPercentage(cat.amount) * 0.2) + '%'"></div>
+                 </div>
+             </div>
+             
+             <div class="text-start text-md-end mt-2 mt-md-0 text-nowrap flex-shrink-0">
+                 <span class="fw-bold text-body me-2">&#8377;{{ cat.amount | number:'1.0-0' }}</span>
+                 <span class="text-body-secondary me-2">Spent</span>
+                 <span class="text-body-secondary fw-medium me-2">{{ getCategoryPercentage(cat.amount) | number:'1.0-0' }}%</span>
+                 <i class="bi bi-chevron-right text-secondary small d-none d-md-inline-block"></i>
+             </div>
+
+          </div>
+          
+          <div *ngIf="!dashboardData.expenseBreakdown || dashboardData.expenseBreakdown.length === 0" class="text-secondary">
+             No category data available.
+          </div>
+       </div>
+    </div>
+
+  </div>
+</div>

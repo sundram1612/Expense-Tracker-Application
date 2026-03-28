@@ -1,0 +1,138 @@
+<div class="container-fluid py-2">
+  
+  <div *ngIf="loading" class="text-center py-5">
+     <div class="spinner-border text-primary"></div>
+  </div>
+
+  <div *ngIf="!loading && dashboardData">
+    <div class="d-flex justify-content-between align-items-center mb-4 px-2">
+       <h3 class="fw-bold mb-0 text-body">Reports</h3>
+       <div class="position-relative">
+          <button class="btn btn-outline-secondary fw-medium rounded bg-body shadow-sm px-3 d-flex align-items-center gap-2"
+                  (click)="openMonthPicker()">
+            <i class="bi bi-calendar3"></i> {{ currentDateRange }}
+          </button>
+          <input #monthInput type="month" 
+                 class="position-absolute" 
+                 style="bottom:0; left:50%; width:1px; height:1px; opacity:0; pointer-events:none; border:none; padding:0; margin:0;"
+                 (change)="onMonthChange($event)">
+       </div>
+    </div>
+
+    <div class="card shadow-sm border-0 rounded-4 p-4 mb-4">
+       <div class="row align-items-center">
+         <div class="col-md-4 text-center">
+            <h6 class="text-body-secondary fw-semibold mb-3">Income</h6>
+            <h2 class="fw-bold text-success mb-0">&#8377;{{ dashboardData.totalIncome | number:'1.0-0' }}</h2>
+         </div>
+         
+         <div class="col-md-4 position-relative d-flex justify-content-center" style="height: 200px;">
+            <div style="position: absolute; top:0; bottom:0; left:0; right:0; display:flex; justify-content:center; align-items:center;">
+               <canvas baseChart [data]="pieChartData" [type]="pieChartType" [options]="pieChartOptions"></canvas>
+            </div>
+         </div>
+         
+         <div class="col-md-4 text-center">
+            <h6 class="text-body-secondary fw-semibold mb-3">Net Balance</h6>
+            <h2 class="fw-bold" style="color: #e5623f;">&#8377;{{ (dashboardData.totalIncome - dashboardData.thisMonthExpense) | number:'1.0-0' }}</h2>
+         </div>
+       </div>
+    </div>
+
+    <div class="row g-4">
+      <div class="col-md-6">
+         <div class="card shadow-sm border-0 rounded-4 p-4 h-100">
+            <h6 class="fw-bold mb-4 text-body" style="color: #2b3954;">Expense Breakdown</h6>
+            <div class="d-flex flex-column gap-3">
+               <div *ngFor="let cat of dashboardData.expenseBreakdown" class="d-flex align-items-center mb-1">
+                 <div class="d-flex align-items-center gap-3" style="width: 150px;">
+                    <i class="bi rounded p-1 fs-6" 
+                      [ngClass]="{
+                        'bi-basket text-warning bg-warning-subtle': cat.category === 'Grocery' || cat.category === 'Food & Dining',
+                        'bi-controller text-success bg-success-subtle': cat.category === 'Entertainment',
+                        'bi-cup-hot text-danger bg-danger-subtle': cat.category === 'Dining' || cat.category === 'Travel',
+                        'bi-briefcase text-info bg-info-subtle': cat.category === 'Shopping' || cat.category === 'Bills',
+                        'bi-lightning-charge text-primary bg-primary-subtle': cat.category === 'Utilities'
+                      }"></i>
+                    <span class="fw-semibold text-body" style="font-size:0.9rem;">{{ cat.category }}</span>
+                 </div>
+                 <div class="flex-grow-1 px-3">
+                     <div class="progress rounded-pill bg-body-secondary" style="height: 10px;">
+                        <div class="progress-bar" role="progressbar" 
+                             [style.width]="getCategoryPercentage(cat.amount) + '%'"
+                             [ngClass]="{
+                               'bg-warning': cat.category === 'Grocery' || cat.category === 'Food & Dining',
+                               'bg-success': cat.category === 'Entertainment',
+                               'bg-danger': cat.category === 'Dining' || cat.category === 'Travel',
+                               'bg-info': cat.category === 'Shopping' || cat.category === 'Bills',
+                               'bg-primary': cat.category === 'Utilities'
+                             }"></div>
+                     </div>
+                 </div>
+               </div>
+            </div>
+         </div>
+      </div>
+      
+      <div class="col-md-6">
+         <div class="card shadow-sm border-0 rounded-4 p-4 h-100">
+            <h6 class="fw-bold mb-4 text-body" style="color: #2b3954;">Income & Expenses</h6>
+            <div class="d-flex justify-content-center align-items-center" style="position: relative; height: 180px; width: 100%;">
+               <canvas baseChart [data]="lineChartData" [options]="lineChartOptions" [type]="lineChartType"></canvas>
+            </div>
+         </div>
+      </div>
+    </div>
+
+    <div class="card shadow-sm border-0 rounded-4 p-4 mt-4 mb-5">
+      <div class="d-flex justify-content-between align-items-center mb-4">
+         <h5 class="fw-bold mb-0 text-body">Generate & Export Report</h5>
+         <span class="badge bg-primary-subtle text-primary rounded-pill px-3">New</span>
+      </div>
+      
+      <div class="row g-4 align-items-end">
+        <div class="col-md-4">
+           <label class="form-label fw-semibold text-body-secondary small">Report Type</label>
+           <select class="form-select border-0 bg-body-tertiary rounded-3 py-2" [(ngModel)]="selectedReportType">
+              <option value="Spending Report">Spending Report</option>
+              <option value="Income Report">Income Report</option>
+              <option value="Income vs Expense">Income vs Expense (All)</option>
+           </select>
+        </div>
+
+        <div class="col-md-3">
+           <label class="form-label fw-semibold text-body-secondary small">Format</label>
+           <div class="d-flex gap-3 mt-1">
+              <div class="form-check">
+                 <input class="form-check-input" type="radio" name="format" id="pdf" value="pdf" [(ngModel)]="selectedFormat">
+                 <label class="form-check-label text-body small" for="pdf">PDF</label>
+              </div>
+              <div class="form-check">
+                 <input class="form-check-input" type="radio" name="format" id="excel" value="excel" [(ngModel)]="selectedFormat">
+                 <label class="form-check-label text-body small" for="excel">Excel</label>
+              </div>
+           </div>
+        </div>
+
+        <div class="col-md-5 d-flex gap-2 justify-content-md-end mt-3">
+           <button class="btn btn-primary rounded-3 px-4 py-2 d-flex align-items-center gap-2" 
+                   (click)="downloadSync()" [disabled]="exportLoading">
+              <i class="bi" [ngClass]="exportLoading ? 'spinner-border spinner-border-sm' : 'bi-download'"></i>
+              {{ exportLoading ? 'Downloading...' : 'Download Now' }}
+           </button>
+           <button class="btn btn-outline-primary rounded-3 px-4 py-2 d-flex align-items-center gap-2" 
+                   (click)="requestAsync()">
+              <i class="bi bi-envelope-at"></i>
+              Email Me
+           </button>
+        </div>
+      </div>
+      
+      <p class="text-muted small mt-3 mb-0">
+         <i class="bi bi-info-circle me-1"></i> 
+         Reports will be generated for the date range: <strong>{{ currentDateRange }}</strong>
+      </p>
+    </div>
+
+  </div>
+</div>

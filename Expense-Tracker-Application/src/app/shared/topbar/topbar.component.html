@@ -1,0 +1,33 @@
+ <div class="topbar w-100 d-flex justify-content-between align-items-center py-3 px-3 px-md-4 shadow-sm" [ngClass]="isDarkMode ? 'bg-dark text-white' : 'bg-white'">
+      <div class="d-flex align-items-center gap-2 gap-md-3">
+        <!-- Hamburger Menu (Mobile Only) -->
+        <button class="btn d-md-none border-0 p-1 me-1" (click)="toggleSidebarEvent.emit()">
+          <i class="bi bi-list fs-3" [ngClass]="isDarkMode ? 'text-light' : 'text-dark'"></i>
+        </button>
+
+        <div class="welcome-text d-none d-sm-block">
+          <h4 class="mb-0 fw-normal" [ngClass]="isDarkMode ? 'text-light' : 'text-secondary-emphasis'" style="font-size: 1.35rem;">
+            Welcome Back, <span class="fw-bold" [ngClass]="isDarkMode ? 'text-white' : 'text-dark'">{{ userName }}!</span>
+          </h4>
+        </div>
+        <div class="welcome-text d-block d-sm-none">
+          <h5 class="mb-0 fw-bold" [ngClass]="isDarkMode ? 'text-white' : 'text-dark'">Hi, {{ getInitials() }}</h5>
+        </div>
+      </div>
+      
+      <div class="user-actions d-flex align-items-center gap-3">
+        <button class="btn rounded-circle shadow-sm icon-btn p-0 d-flex align-items-center justify-content-center position-relative" 
+                [ngClass]="isDarkMode ? 'btn-secondary text-light' : 'btn-light text-secondary'"
+                (click)="toggleTheme()">
+          <i class="bi shadow-sm" [ngClass]="isDarkMode ? 'bi-sun-fill text-warning' : 'bi-moon-stars-fill'"></i>
+        </button>
+        
+        <div class="user-profile d-flex align-items-center gap-2 px-1 py-1 rounded-pill shadow-sm border" 
+             [ngClass]="isDarkMode ? 'bg-secondary border-secondary' : 'bg-white border-light'"
+             style="cursor: pointer;">
+          <img [src]="'https://ui-avatars.com/api/?name=' + getInitials() + '&background=0D8ABC&color=fff'" alt="User" class="rounded-circle shadow-sm" width="32" height="32">
+          <span class="fw-medium d-none d-sm-inline" [ngClass]="isDarkMode ? 'text-white' : 'text-dark'">{{ userName }}</span>
+          <i class="small d-none d-sm-inline" [ngClass]="isDarkMode ? 'text-light' : 'text-secondary'"></i>
+        </div>
+      </div>
+    </div>

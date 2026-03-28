@@ -1,0 +1,7 @@
+.card {
+    background-color: var(--bs-body-bg);
+}
+
+[data-bs-theme="dark"] .bg-body-secondary {
+   background-color: #3b4248 !important;
+}

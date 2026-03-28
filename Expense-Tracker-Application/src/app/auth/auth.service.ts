@@ -1,6 +1,6 @@
 import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
-import { BehaviorSubject, Observable, tap } from "rxjs";
+import { BehaviorSubject, Observable, map, tap } from "rxjs";
 import { RegisterRequest } from "./models/register-request.model";
 import { AuthResponse } from "./models/auth-response.model";
 import { LoginRequest } from "./models/login-request.model";
@@ -25,12 +25,15 @@ export class AuthService {
     }
 
     register(data: RegisterRequest): Observable<string> {
-        return this.http.post(this.baseUrl + '/register', data, { responseType: 'text' });
+        return this.http.post<any>(this.baseUrl + '/register', data).pipe(
+            map((res: any) => res.message || 'Registered successfully')
+        );
     }
 
     login(data: LoginRequest): Observable<AuthResponse> {
-        return this.http.post<AuthResponse>(this.baseUrl + '/login', data).pipe(
-            tap((response) => {
+        return this.http.post<any>(this.baseUrl + '/login', data).pipe(
+            map((res: any) => res.data as AuthResponse),
+            tap((response: AuthResponse) => {
                 if (this.isBrowser()) {
                     localStorage.setItem('token', response.token);
 
@@ -57,11 +60,15 @@ export class AuthService {
     }
 
     sendResetLinkToUser(email: string) {
-        return this.http.post('http://localhost:8080/auth/forgot-password', { email }, { responseType: 'text' });
+        return this.http.post<any>('http://localhost:8080/auth/forgot-password', { email }).pipe(
+            map((res: any) => res.message || 'Reset link sent')
+        );
     }
 
     resetPassword(token: string, newPassword: string) {
-        return this.http.post(`http://localhost:8080/auth/reset-password/${token}`, { newPassword }, { responseType: 'text' });
+        return this.http.post<any>(`http://localhost:8080/auth/reset-password/${token}`, { newPassword }).pipe(
+            map((res: any) => res.message || 'Password reset successful')
+        );
     }
 
 }

@@ -1,8 +1,11 @@
 <div class="container-fluid d-flex justify-content-center align-items-center mt-5" style="min-height: calc(100vh - 72px);">
   <div class="register-container card shadow-sm" style="width: 420px;">
     <div class="card-body p-4">
-      <h3 class="mb-2 fw-bold h-title text-center">Create your account</h3>
-      <p class="text-muted small mb-4 text-center">Sign up to save and track your expenses securely</p>
+      <div class="text-center mb-3">
+          <img src="logo.png" alt="Expense Tracker Logo" style="width: 72px; height: 72px; object-fit: contain;">
+      </div>
+      <h3 class="mb-2 fw-bold h-title text-center">Register</h3>
+      <!-- <p class="text-muted small mb-4 text-center">Sign up to save and track your expenses securely</p> -->
 
       <form [formGroup]="registerForm" (ngSubmit)="OnSubmit()">
         <div class="mb-3">

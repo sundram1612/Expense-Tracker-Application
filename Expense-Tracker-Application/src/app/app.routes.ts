@@ -9,12 +9,6 @@ export const routes: Routes = [
       .then(m => m.HomeComponent)
   },
   {
-    path: 'pie-visualization',
-    canActivate: [authGuard],
-    loadComponent: () => import('./pie-chart/pie-chart.component')
-      .then(m => m.PieChartComponent)
-  },
-  {
     path: 'login', loadComponent: () => import('./auth/login/login.component')
       .then(m => m.LoginComponent)
   },
@@ -33,6 +27,24 @@ export const routes: Routes = [
     loadComponent: () =>
       import('./auth/reset-password/reset-password.component')
         .then(m => m.ResetPasswordComponent)
+  },
+  {
+    path: 'transactions',
+    canActivate: [authGuard],
+    loadComponent: () => import('./transactions/transactions.component')
+        .then(m => m.TransactionsComponent)
+  },
+  {
+    path: 'budgets',
+    canActivate: [authGuard],
+    loadComponent: () => import('./budgets/budgets.component')
+        .then(m => m.BudgetsComponent)
+  },
+  {
+    path: 'reports',
+    canActivate: [authGuard],
+    loadComponent: () => import('./reports/reports.component')
+        .then(m => m.ReportsComponent)
   }
 
 ];

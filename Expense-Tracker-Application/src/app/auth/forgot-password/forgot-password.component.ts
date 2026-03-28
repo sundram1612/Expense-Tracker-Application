@@ -37,14 +37,13 @@ export class ForgotPasswordComponent {
 
     this.authService.sendResetLinkToUser(email).subscribe({
       next: () => {
+        this.loading = false;
         Swal.fire('Success', 'Reset link sent to your email', 'success');
         this.router.navigate(['/login']);
       },
       error: (err: any) => {
-        Swal.fire('Error', err.error?.message || 'Something went wrong', 'error');
-      },
-      complete: () => {
         this.loading = false;
+        Swal.fire('Error', err.error?.message || 'Something went wrong', 'error');
       }
     });
   }

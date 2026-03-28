@@ -28,12 +28,13 @@ export const authInterceptor: HttpInterceptorFn = (req, next) => {
         return http.post('http://localhost:8080/auth/refresh-token', { refreshToken })
         .pipe(
           switchMap((res: any) => {
+            const newToken = res.data?.accessToken || res.token;
 
-            localStorage.setItem('token', res.token);
+            localStorage.setItem('token', newToken);
 
             const newReq = req.clone({
               setHeaders: {
-                'Authorization': `Bearer ${res.token}`
+                'Authorization': `Bearer ${newToken}`
               }
             });
             return next(newReq);

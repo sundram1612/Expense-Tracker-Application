@@ -1,0 +1,25 @@
+ .topbar {
+      transition: background-color 0.3s ease;
+    }
+    
+    .icon-btn {
+      width: 40px;
+      height: 40px;
+      border: none;
+      transition: background-color 0.3s ease;
+    }
+    
+    .text-secondary-emphasis {
+       color: #5d677d !important;
+    }
+
+    /* Mobile Responsive Adjustments */
+    @media (max-width: 575.98px) {
+      .user-profile {
+        background-color: transparent !important;
+        border-color: transparent !important;
+        box-shadow: none !important;
+        padding: 0 !important;
+        gap: 0 !important;
+      }
+    }

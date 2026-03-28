@@ -1,0 +1,30 @@
+.sidebar {
+      width: 260px;
+      height: 100vh;
+      background-color: #4364a5; 
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      box-shadow: 2px 0 10px rgba(0,0,0,0.05);
+      position: relative;
+      z-index: 1000;
+      border-top-right-radius: 15px;
+      border-bottom-right-radius: 15px;
+    }
+    
+    .nav-link {
+      border-radius: 8px;
+      opacity: 0.75;
+      transition: all 0.2s;
+    }
+    
+    .nav-link:hover, .nav-link.active {
+      background-color: #5579C2; 
+      opacity: 1;
+    }
+    
+    .logo {
+      border-bottom: 1px solid rgba(255,255,255,0.1);
+      padding-bottom: 1.5rem !important;
+    }
+    .logo i {
+        color: #4364a5 !important;
+    }

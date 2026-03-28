@@ -20,12 +20,9 @@ export class ThemeService {
 
     private getInitialTheme(): Theme {
         if(isPlatformBrowser(this.platformID)){
-            const savedTheme = localStorage.getItem('theme') as Theme;
+            const savedTheme = localStorage.getItem('expense-tracker-theme') as Theme;
             if(savedTheme && (savedTheme === 'light' || savedTheme === 'dark')){
                 return savedTheme;
-            }
-            if(window.matchMedia && window.matchMedia('(prefers-color-scheme: dark').matches){
-                return 'dark';
             }
         }
         return 'light';

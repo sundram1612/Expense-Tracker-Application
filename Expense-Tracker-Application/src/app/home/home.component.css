@@ -1,0 +1,72 @@
+.dashboard-container {
+    padding-bottom: 2rem;
+}
+
+.card {
+    border-radius: 12px;
+}
+
+.stat-card {
+    transition: transform 0.2s;
+}
+
+.stat-card:hover {
+    transform: translateY(-3px);
+}
+
+.bg-success { background-color: #34A853 !important; }
+.bg-danger { background-color: #EA4335 !important; }
+.bg-primary { background-color: #4285F4 !important; }
+.bg-warning { background-color: #FBBC05 !important; }
+
+.table th {
+    border-bottom: 1px solid #e9ecef;
+    padding-bottom: 12px;
+}
+.table td {
+    padding: 12px 8px;
+    border-bottom: 1px solid #f8f9fa;
+}
+.table tbody tr:last-child td {
+    border-bottom: none;
+}
+
+.badge {
+    font-weight: 500;
+}
+
+.heatmap-grid {
+    width: 100%;
+}
+
+.heatmap-cell {
+    width: 15px;
+    height: 15px;
+    background-color: #ebedf0;
+    transition: all 0.2s;
+}
+
+.heatmap-cell.level-0 { background-color: #ebedf0; }
+.heatmap-cell.level-1 { background-color: #9be9a8; }
+.heatmap-cell.level-2 { background-color: #40c463; }
+.heatmap-cell.level-3 { background-color: #30a14e; }
+
+.heatmap-cell:hover {
+    opacity: 0.8;
+}
+
+.insight-item {
+    transition: box-shadow 0.2s;
+}
+.insight-item:hover {
+    box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+}
+
+.action-btn {
+    transition: all 0.2s;
+    border: none;
+}
+.action-btn:hover {
+    transform: scale(1.05);
+    opacity: 0.9;
+}

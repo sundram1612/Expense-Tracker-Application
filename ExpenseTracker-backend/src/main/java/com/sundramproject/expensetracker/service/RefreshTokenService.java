@@ -1,0 +1,38 @@
+package com.sundramproject.expensetracker.service;
+
+import com.sundramproject.expensetracker.model.entity.RefreshToken;
+import com.sundramproject.expensetracker.model.entity.User;
+import com.sundramproject.expensetracker.repository.RefreshTokenRepository;
+import jakarta.transaction.Transactional;
+import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Service;
+
+import java.time.Instant;
+import java.util.Optional;
+import java.util.UUID;
+
+@Service
+@RequiredArgsConstructor
+public class RefreshTokenService {
+
+    private final RefreshTokenRepository refreshTokenRepository;
+
+    @Transactional
+    public RefreshToken createRefreshToken(User user) {
+        Optional<RefreshToken> existingToken = refreshTokenRepository.findByUser(user);
+
+        RefreshToken refreshToken;
+        if (existingToken.isPresent()) {
+            refreshToken = existingToken.get();
+            refreshToken.setToken(UUID.randomUUID().toString());
+            refreshToken.setExpiryDate(Instant.now().plusSeconds(60 * 60 * 24 * 7));
+        } else {
+            refreshToken = new RefreshToken();
+            refreshToken.setUser(user);
+            refreshToken.setToken(UUID.randomUUID().toString());
+            refreshToken.setExpiryDate(Instant.now().plusSeconds(60 * 60 * 24 * 7));
+        }
+
+        return refreshTokenRepository.save(refreshToken);
+    }
+}

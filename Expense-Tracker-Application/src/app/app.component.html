@@ -1,4 +1,16 @@
-<app-header></app-header>
-<main class="container-fluid py-4">    
-    <router-outlet></router-outlet>
-</main>
+<div class="d-flex" style="min-height: 100vh; position: relative; overflow-x: hidden;">
+  
+  <div *ngIf="showNavigation && isSidebarOpen" class="sidebar-overlay d-md-none" (click)="toggleSidebar()"></div>
+
+  <div *ngIf="showNavigation" class="sidebar-wrapper" [ngClass]="{'open': isSidebarOpen}">
+    <app-sidebar></app-sidebar>
+  </div>
+  
+  <div class="flex-grow-1 main-content" [ngClass]="{'with-sidebar': showNavigation}">
+    <app-topbar *ngIf="showNavigation" [userName]="userName" (toggleSidebarEvent)="toggleSidebar()"></app-topbar>
+    <main class="p-3 p-md-4" [ngClass]="{'container-fluid': !showNavigation}">
+      <router-outlet></router-outlet>
+    </main>
+    <app-toast-container></app-toast-container>
+  </div>
+</div>

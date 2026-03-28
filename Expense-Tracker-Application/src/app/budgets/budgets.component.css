@@ -1,0 +1,15 @@
+.card {
+    background-color: var(--bs-body-bg);
+}
+
+.custom-bg-success {
+    background-color: #5bb259 !important;
+}
+
+.custom-bg-warning {
+    background-color: #f79c42 !important;
+}
+
+[data-bs-theme="dark"] .bg-body-secondary {
+   background-color: #3b4248 !important;
+}

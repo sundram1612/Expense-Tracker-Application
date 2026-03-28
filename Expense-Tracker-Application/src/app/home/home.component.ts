@@ -1,131 +1,148 @@
-import { CommonModule } from '@angular/common';
-import { HttpClientModule } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
-import { RouterOutlet, RouterModule } from '@angular/router';
-import { ExpenseFormComponent } from '../expense-form/expense-form.component';
-import { ExpenseListComponent } from '../expense-list/expense-list.component';
-import { ExpenseSummaryComponent } from '../expense-summary/expense-summary.component';
-import { Expense, ExpenseService } from '../expense.service';
-import { ExpenseUpdateModalComponent } from './../expense-update-modal/expense-update-modal.component';
+import { CommonModule } from '@angular/common';
+import { Router } from '@angular/router';
+import { ExpenseService } from '../expense.service';
+import { ToastService } from '../shared/notifications/toast.service';
+import { DashboardDTO } from '../shared/models/dashboard.model';
+import { BaseChartDirective } from 'ng2-charts';
+import { ChartConfiguration, ChartData, ChartType } from 'chart.js';
+import { AddExpenseModalComponent } from '../shared/modals/add-expense-modal.component';
+import { AddIncomeModalComponent } from '../shared/modals/add-income-modal.component';
 
 @Component({
-  selector: 'app-root',
+  selector: 'app-home',
   standalone: true,
-  imports: [
-    CommonModule,
-    RouterModule,
-    HttpClientModule,
-    ExpenseFormComponent,
-    ExpenseListComponent,
-    ExpenseSummaryComponent,
-    ExpenseUpdateModalComponent
-  ],
+  imports: [CommonModule, BaseChartDirective, AddExpenseModalComponent, AddIncomeModalComponent],
   templateUrl: './home.component.html',
   styleUrl: './home.component.css'
 })
 export class HomeComponent implements OnInit {
-  expenses: Expense[] = [];
-  totalExpenses = 0;
-  categoryBreakdown: any[] = [];
-  showToast = false;
-  selectedExpense: any = null;
+  dashboardData: DashboardDTO | null = null;
+  loading = true;
+  error = '';
 
-
-  constructor(private expenseService: ExpenseService) { }
-
-  ngOnInit(): void {
-    if (typeof window !== 'undefined') {
-      this.loadExpenses();
+  showAddExpense = false;
+  showAddIncome = false;
+  
+  // Chart configs
+  public pieChartOptions: ChartConfiguration['options'] = {
+    responsive: true,
+    maintainAspectRatio: false,
+    plugins: {
+      legend: { position: 'right' },
     }
+  };
+  public pieChartData: ChartData<'pie', number[], string | string[]> = {
+    labels: [],
+    datasets: [ { data: [] } ]
+  };
+  public pieChartType: ChartType = 'pie';
+
+  public lineChartData: ChartConfiguration['data'] = {
+    datasets: [],
+    labels: []
+  };
+  public lineChartOptions: ChartConfiguration['options'] = {
+    responsive: true,
+    maintainAspectRatio: false,
+    elements: {
+      line: { tension: 0.5 }
+    },
+    scales: {
+      y: { position: 'left' }
+    },
+    plugins: { legend: { display: true } }
+  };
+  public lineChartType: ChartType = 'line';
+
+  // Heatmap configuration
+  heatmapDays: { date: Date, level: number, title: string }[] = [];
+  heatmapDaysOfWeek = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
+
+  constructor(private expenseService: ExpenseService, private router: Router, private toastService: ToastService) {}
+
+  navigateToReports() {
+    this.router.navigate(['/reports']);
   }
 
-  onExpenseAdded(expense: Expense) {
+  ngOnInit() {
+    this.fetchDashboardData();
+  }
 
-    if (!expense.date) {
-      expense.date = new Date().toISOString().substring(0, 10);
-    }
-
-    this.expenseService.addExpense(expense).subscribe({
-      next: () => {
-        this.loadExpenses();
+  fetchDashboardData() {
+    this.expenseService.getDashboardData().subscribe({
+      next: (data: DashboardDTO) => {
+        this.dashboardData = data;
+        this.processCharts(data);
+        this.processHeatmap(data.heatmapData);
+        this.loading = false;
       },
       error: (err) => {
+        this.error = 'Failed to load dashboard data.';
+        this.loading = false;
+        this.toastService.error('Failed to load dashboard data. Please check your connection.', 'Dashboard Error');
         console.error(err);
-        alert('Failed to add expense: ' + err.message);
       }
     });
   }
 
+  processCharts(data: DashboardDTO) {
+    if (data.expenseBreakdown && data.expenseBreakdown.length > 0) {
+      this.pieChartData = {
+        labels: data.expenseBreakdown.map(b => b.category),
+        datasets: [{
+          data: data.expenseBreakdown.map(b => b.amount),
+          backgroundColor: ['#4285F4', '#EA4335', '#FBBC05', '#34A853', '#9C27B0']
+        }]
+      };
+    }
 
-  onExpenseDeleted(id: string) {
-    this.expenseService.deleteExpense(id).subscribe({
-      next: () => {
-
-        this.expenses = this.expenses.filter(exp => exp.id !== id);
-        this.totalExpenses = this.getTotalExpenses();
-        this.updateCategoryBreakdown();
-      },
-      error: (err) => {
-        console.error(err);
-        alert('Failed to delete expense: ' + err.message);
-      }
-    });
+    if (data.incomeVsExpense && data.incomeVsExpense.length > 0) {
+      const reversed = [...data.incomeVsExpense].reverse();
+      this.lineChartData = {
+        labels: reversed.map(m => m.month),
+        datasets: [
+          {
+            data: reversed.map(m => m.income),
+            label: 'Income',
+            backgroundColor: 'rgba(52, 168, 83, 0.2)',
+            borderColor: '#34A853',
+            pointBackgroundColor: '#34A853',
+            fill: 'origin',
+          },
+          {
+            data: reversed.map(m => m.expense),
+            label: 'Expense',
+            backgroundColor: 'rgba(234, 67, 53, 0.2)',
+            borderColor: '#EA4335',
+            pointBackgroundColor: '#EA4335',
+            fill: 'origin',
+          }
+        ]
+      };
+    }
   }
 
-
-  public loadExpenses() {
-    this.expenseService.getExpenses().subscribe({
-      next: (data) => {
-        if (!Array.isArray(data)) data = [];
-
-        data = data.map(e => {
-          e.date = e.date?.substring(0, 10);
-          return e;
-        });
-
-        this.expenses = data.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
-        this.totalExpenses = this.getTotalExpenses();
-        this.updateCategoryBreakdown();
-      },
-      error: (err) => alert('Failed to load expenses: ' + err.message)
-    });
+  processHeatmap(heatmapData: any) {
+    // Generate last 30 days
+    const days = [];
+    for (let i = 29; i >= 0; i--) {
+      const d = new Date();
+      d.setDate(d.getDate() - i);
+      const dateStr = d.toISOString().split('T')[0];
+      const count = heatmapData ? (heatmapData[dateStr] || 0) : 0;
+      let level = 0;
+      if(count > 0 && count <= 2) level = 1;
+      else if(count > 2 && count <= 5) level = 2;
+      else if(count > 5) level = 3;
+      
+      days.push({
+        date: d,
+        title: `${dateStr}: ${count} transactions`,
+        level: level
+      });
+    }
+    this.heatmapDays = days;
   }
-
-  private getTotalExpenses(): number {
-    return this.expenses.reduce((total, exp) => total + exp.amount, 0);
-  }
-
-  private updateCategoryBreakdown() {
-    const categories = ['Food', 'Travel', 'Shopping', 'Utilities', 'Other'];
-    this.categoryBreakdown = categories.map(category => {
-      const categoryExpenses = this.expenses.filter(exp => exp.category === category);
-      const total = categoryExpenses.reduce((sum, exp) => sum + exp.amount, 0);
-      return { name: category, amount: total };
-    }).filter(cat => cat.amount > 0);
-  }
-
-  openEditModal(expense: any) {
-    this.selectedExpense = expense;
-    document.body.style.overflow = 'hidden';
-  }
-
-  closeEditModal() {
-    this.selectedExpense = null;
-    document.body.style.overflow = '';
-  }
-
-  onExpenseUpdated() {
-    this.loadExpenses();
-
-    this.showToast = true;
-    this.closeEditModal();
-
-    setTimeout(() => {
-      this.showToast = false;
-    }, 2200);
-
-    this.closeEditModal();
-  }
-
-
 }
+      
