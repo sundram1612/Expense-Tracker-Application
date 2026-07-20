@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { CommonModule } from '@angular/common'
 import { Router } from '@angular/router';
 import { ExpenseService } from '../expense.service';
 import { ToastService } from '../shared/notifications/toast.service';
@@ -8,7 +8,7 @@ import { BaseChartDirective } from 'ng2-charts';
 import { ChartConfiguration, ChartData, ChartType } from 'chart.js';
 import { AddExpenseModalComponent } from '../shared/modals/add-expense-modal.component';
 import { AddIncomeModalComponent } from '../shared/modals/add-income-modal.component';
-
+//components are shown below which are directly increased by its redundancy of the code where it's been crepusculed by a with the inevitable entity of the collection framework whether it is true or not wrt of the its app.ts used the the application
 @Component({
   selector: 'app-home',
   standalone: true,
